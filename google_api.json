@@ -1,0 +1,1333 @@
+{
+    "kind": "civicinfo#representativeInfoResponse",
+    "normalizedInput": {
+     "line1": "2302 Valdez Street",
+     "city": "Oakland",
+     "state": "CA",
+     "zip": "94612"
+    },
+    "divisions": {
+     "ocd-division/country:us": {
+      "name": "United States",
+      "officeIndices": [
+       0,
+       1
+      ]
+     },
+     "ocd-division/country:us/state:ca": {
+      "name": "California",
+      "officeIndices": [
+       2,
+       4,
+       5,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14
+      ]
+     },
+     "ocd-division/country:us/state:ca/cd:13": {
+      "name": "California's 13th congressional district",
+      "officeIndices": [
+       3
+      ]
+     },
+     "ocd-division/country:us/state:ca/county:alameda": {
+      "name": "Alameda County",
+      "officeIndices": [
+       16,
+       17,
+       18,
+       19,
+       20,
+       21
+      ]
+     },
+     "ocd-division/country:us/state:ca/county:alameda/council_district:5": {
+      "name": "Alameda County CA Board of Supervisors District 5",
+      "officeIndices": [
+       15
+      ]
+     },
+     "ocd-division/country:us/state:ca/county:alameda/school_district:oakland_unified": {
+      "name": "oakland unified"
+     },
+     "ocd-division/country:us/state:ca/place:oakland": {
+      "name": "Oakland city",
+      "officeIndices": [
+       22,
+       23,
+       24,
+       25
+      ]
+     },
+     "ocd-division/country:us/state:ca/place:oakland/council_district:3": {
+      "name": "Oakland CA city council district 3",
+      "officeIndices": [
+       26
+      ]
+     },
+     "ocd-division/country:us/state:ca/sldl:18": {
+      "name": "California Assembly district 18",
+      "officeIndices": [
+       7
+      ]
+     },
+     "ocd-division/country:us/state:ca/sldu:9": {
+      "name": "California State Senate district 9",
+      "officeIndices": [
+       6
+      ]
+     }
+    },
+    "offices": [
+     {
+      "name": "President of the United States",
+      "divisionId": "ocd-division/country:us",
+      "levels": [
+       "country"
+      ],
+      "roles": [
+       "headOfState",
+       "headOfGovernment"
+      ],
+      "officialIndices": [
+       0
+      ]
+     },
+     {
+      "name": "Vice President of the United States",
+      "divisionId": "ocd-division/country:us",
+      "levels": [
+       "country"
+      ],
+      "roles": [
+       "deputyHeadOfGovernment"
+      ],
+      "officialIndices": [
+       1
+      ]
+     },
+     {
+      "name": "U.S. Senator",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "country"
+      ],
+      "roles": [
+       "legislatorUpperBody"
+      ],
+      "officialIndices": [
+       2,
+       3
+      ]
+     },
+     {
+      "name": "U.S. Representative",
+      "divisionId": "ocd-division/country:us/state:ca/cd:13",
+      "levels": [
+       "country"
+      ],
+      "roles": [
+       "legislatorLowerBody"
+      ],
+      "officialIndices": [
+       4
+      ]
+     },
+     {
+      "name": "Governor of California",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "roles": [
+       "headOfGovernment"
+      ],
+      "officialIndices": [
+       5
+      ]
+     },
+     {
+      "name": "Lieutenant Governor of California",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "roles": [
+       "deputyHeadOfGovernment"
+      ],
+      "officialIndices": [
+       6
+      ]
+     },
+     {
+      "name": "CA State Senator",
+      "divisionId": "ocd-division/country:us/state:ca/sldu:9",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "roles": [
+       "legislatorUpperBody"
+      ],
+      "officialIndices": [
+       7
+      ]
+     },
+     {
+      "name": "CA State Assemblymember",
+      "divisionId": "ocd-division/country:us/state:ca/sldl:18",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "roles": [
+       "legislatorLowerBody"
+      ],
+      "officialIndices": [
+       8
+      ]
+     },
+     {
+      "name": "CA Supreme Court Justice",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ]
+     },
+     {
+      "name": "CA State Superintendent of Public Instruction",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       16
+      ]
+     },
+     {
+      "name": "CA State Treasurer",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       17
+      ]
+     },
+     {
+      "name": "CA Attorney General",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       18
+      ]
+     },
+     {
+      "name": "CA State Controller",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       19
+      ]
+     },
+     {
+      "name": "CA Insurance Commissioner",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       20
+      ]
+     },
+     {
+      "name": "CA Secretary of State",
+      "divisionId": "ocd-division/country:us/state:ca",
+      "levels": [
+       "administrativeArea1"
+      ],
+      "officialIndices": [
+       21
+      ]
+     },
+     {
+      "name": "Alameda County Supervisor",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda/council_district:5",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       22
+      ]
+     },
+     {
+      "name": "Alameda County Auditor-Controller-Clerk-Recorder",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       23
+      ]
+     },
+     {
+      "name": "Alameda County Treasurer-Tax Collector",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       24
+      ]
+     },
+     {
+      "name": "Alameda County Sheriff-Coroner",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       25
+      ]
+     },
+     {
+      "name": "Alameda County Assessor",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       26
+      ]
+     },
+     {
+      "name": "Alameda County Superintendent of Schools",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       27
+      ]
+     },
+     {
+      "name": "Alameda County District Attorney",
+      "divisionId": "ocd-division/country:us/state:ca/county:alameda",
+      "levels": [
+       "administrativeArea2"
+      ],
+      "officialIndices": [
+       28
+      ]
+     },
+     {
+      "name": "Oakland City Attorney",
+      "divisionId": "ocd-division/country:us/state:ca/place:oakland",
+      "levels": [
+       "locality"
+      ],
+      "officialIndices": [
+       29
+      ]
+     },
+     {
+      "name": "Oakland City Council Member",
+      "divisionId": "ocd-division/country:us/state:ca/place:oakland",
+      "levels": [
+       "locality"
+      ],
+      "officialIndices": [
+       30
+      ]
+     },
+     {
+      "name": "Oakland Mayor",
+      "divisionId": "ocd-division/country:us/state:ca/place:oakland",
+      "levels": [
+       "locality"
+      ],
+      "officialIndices": [
+       31
+      ]
+     },
+     {
+      "name": "Oakland City Auditor",
+      "divisionId": "ocd-division/country:us/state:ca/place:oakland",
+      "levels": [
+       "locality"
+      ],
+      "officialIndices": [
+       32
+      ]
+     },
+     {
+      "name": "Oakland City Council Member",
+      "divisionId": "ocd-division/country:us/state:ca/place:oakland/council_district:3",
+      "levels": [
+       "locality"
+      ],
+      "officialIndices": [
+       33
+      ]
+     }
+    ],
+    "officials": [
+     {
+      "name": "Donald J. Trump",
+      "address": [
+       {
+        "line1": "1600 Pennsylvania Avenue Northwest",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20500"
+       }
+      ],
+      "party": "Republican Party",
+      "phones": [
+       "(202) 456-1111"
+      ],
+      "urls": [
+       "https://www.whitehouse.gov/"
+      ],
+      "photoUrl": "https://www.whitehouse.gov/sites/whitehouse.gov/files/images/45/PE%20Color.jpg",
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "DonaldTrump"
+       },
+       {
+        "type": "Twitter",
+        "id": "potus"
+       },
+       {
+        "type": "YouTube",
+        "id": "whitehouse"
+       }
+      ]
+     },
+     {
+      "name": "Mike Pence",
+      "address": [
+       {
+        "line1": "1600 Pennsylvania Avenue Northwest",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20500"
+       }
+      ],
+      "party": "Republican Party",
+      "phones": [
+       "(202) 456-1111"
+      ],
+      "urls": [
+       "https://www.whitehouse.gov/"
+      ],
+      "photoUrl": "https://www.whitehouse.gov/sites/whitehouse.gov/files/images/45/VPE%20Color.jpg",
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "mikepence"
+       },
+       {
+        "type": "Twitter",
+        "id": "VP"
+       }
+      ]
+     },
+     {
+      "name": "Kamala D. Harris",
+      "address": [
+       {
+        "line1": "112 Hart Senate Office Building",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20510"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(202) 224-3553"
+      ],
+      "urls": [
+       "https://www.harris.senate.gov"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "KamalaHarris"
+       },
+       {
+        "type": "Twitter",
+        "id": "KamalaHarris"
+       },
+       {
+        "type": "YouTube",
+        "id": "UC0XBsJpPhOLg0k4x9ZwrWzw"
+       }
+      ]
+     },
+     {
+      "name": "Dianne Feinstein",
+      "address": [
+       {
+        "line1": "331 Hart Senate Office Building",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20510"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(202) 224-3841"
+      ],
+      "urls": [
+       "https://www.feinstein.senate.gov/"
+      ],
+      "photoUrl": "http://bioguide.congress.gov/bioguide/photo/F/F000062.jpg",
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "SenatorFeinstein"
+       },
+       {
+        "type": "Twitter",
+        "id": "SenFeinstein"
+       },
+       {
+        "type": "YouTube",
+        "id": "SenatorFeinstein"
+       }
+      ]
+     },
+     {
+      "name": "Barbara Lee",
+      "address": [
+       {
+        "line1": "2470 Rayburn House Office Building",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20515"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(202) 225-2661"
+      ],
+      "urls": [
+       "https://lee.house.gov/"
+      ],
+      "photoUrl": "http://bioguide.congress.gov/bioguide/photo/L/L000551.jpg",
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "RepBarbaraLee"
+       },
+       {
+        "type": "Twitter",
+        "id": "repbarbaralee"
+       },
+       {
+        "type": "YouTube",
+        "id": "RepLee"
+       }
+      ]
+     },
+     {
+      "name": "Gavin Newsom",
+      "address": [
+       {
+        "line1": "1303 10th Street",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 445-2841"
+      ],
+      "urls": [
+       "https://www.gov.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "CAgovernor"
+       },
+       {
+        "type": "Twitter",
+        "id": "CAgovernor"
+       }
+      ]
+     },
+     {
+      "name": "Eleni Kounalakis",
+      "address": [
+       {
+        "line1": "1315 10th Street",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 445-8994"
+      ],
+      "urls": [
+       "https://ltg.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "EleniKounalakis"
+       },
+       {
+        "type": "Twitter",
+        "id": "CALtGovernor"
+       }
+      ]
+     },
+     {
+      "name": "Nancy Skinner",
+      "address": [
+       {
+        "line1": "State Capitol",
+        "line2": "Room 2082",
+        "line3": "",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814-4900"
+       },
+       {
+        "line1": "1515 Clay Street",
+        "line2": "Suite 2202",
+        "line3": "",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 651-4009"
+      ],
+      "urls": [
+       "https://sd09.senate.ca.gov/"
+      ],
+      "photoUrl": "http://senate.ca.gov/sites/senate.ca.gov/files/senator_photos/skinner.jpg",
+      "emails": [
+       "senator.skinner@sen.ca.gov"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "StateSenatorNancySkinner"
+       },
+       {
+        "type": "Twitter",
+        "id": "nancyskinnerca"
+       }
+      ]
+     },
+     {
+      "name": "Rob Bonta",
+      "address": [
+       {
+        "line1": "California State Capitol",
+        "line2": "P.O. Box 942849",
+        "line3": "Room 2148",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "94249-0018"
+       },
+       {
+        "line1": "1515 Clay Street",
+        "line2": "Suite 2204",
+        "line3": "",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(510) 286-1670"
+      ],
+      "urls": [
+       "https://a18.asmdc.org"
+      ],
+      "photoUrl": "http://assembly.ca.gov/sites/assembly.ca.gov/files/memberphotos/AD18-Bonta.jpg",
+      "emails": [
+       "assemblymember.bonta@assembly.ca.gov"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "RobBontaCA"
+       },
+       {
+        "type": "Twitter",
+        "id": "RobBonta"
+       },
+       {
+        "type": "YouTube",
+        "id": "robbonta"
+       }
+      ]
+     },
+     {
+      "name": "Mariano-Florentino Cuéllar",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Goodwin H. Liu",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Leondra R. Kruger",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Tani G. Cantil-Sakauye",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Joshua P. Groban",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Carol A. Corrigan",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Ming W. Chin",
+      "address": [
+       {
+        "line1": "350 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(415) 865-7000"
+      ],
+      "urls": [
+       "https://www.courts.ca.gov/supremecourt.htm"
+      ],
+      "channels": [
+       {
+        "type": "Twitter",
+        "id": "CalCourts"
+       }
+      ]
+     },
+     {
+      "name": "Tony Thurmond",
+      "address": [
+       {
+        "line1": "1430 N Street",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(916) 319-0800"
+      ],
+      "urls": [
+       "https://www.cde.ca.gov/eo/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "CAEducation"
+       },
+       {
+        "type": "Twitter",
+        "id": "CADeptEd"
+       }
+      ]
+     },
+     {
+      "name": "Fiona Ma",
+      "address": [
+       {
+        "line1": "915 Capitol Mall",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 653-2995"
+      ],
+      "urls": [
+       "https://www.treasurer.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "CaliforniaSTO"
+       },
+       {
+        "type": "Twitter",
+        "id": "CalTreasurer"
+       }
+      ]
+     },
+     {
+      "name": "Xavier Becerra",
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 445-9555"
+      ],
+      "urls": [
+       "https://oag.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "AGBecerra"
+       },
+       {
+        "type": "Twitter",
+        "id": "AGBecerra"
+       }
+      ]
+     },
+     {
+      "name": "Betty T. Yee",
+      "address": [
+       {
+        "line1": "300 Capitol Mall",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 445-2636"
+      ],
+      "urls": [
+       "https://www.sco.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "California-State-Controllers-Office-137732083043662"
+       },
+       {
+        "type": "Twitter",
+        "id": "CAController"
+       }
+      ]
+     },
+     {
+      "name": "Ricardo Lara",
+      "address": [
+       {
+        "line1": "300 Capitol Mall",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(800) 927-4357"
+      ],
+      "urls": [
+       "http://www.insurance.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "insurancecagov"
+       },
+       {
+        "type": "Twitter",
+        "id": "ICRicardoLara"
+       }
+      ]
+     },
+     {
+      "name": "Alex Padilla",
+      "address": [
+       {
+        "line1": "1500 11th Street",
+        "city": "Sacramento",
+        "state": "CA",
+        "zip": "95814"
+       }
+      ],
+      "party": "Democratic Party",
+      "phones": [
+       "(916) 653-6814"
+      ],
+      "urls": [
+       "https://www.sos.ca.gov/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "CaliforniaSOS"
+       },
+       {
+        "type": "Twitter",
+        "id": "CASOSvote"
+       }
+      ]
+     },
+     {
+      "name": "Keith Carson",
+      "address": [
+       {
+        "line1": "1221 Oak Street",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-6695"
+      ],
+      "urls": [
+       "http://www.acgov.org/board/district5/"
+      ],
+      "emails": [
+       "supervisor.carson@acgov.org"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "keith.carson"
+       },
+       {
+        "type": "Twitter",
+        "id": "Keith_Carson"
+       }
+      ]
+     },
+     {
+      "name": "Melissa Wilk",
+      "address": [
+       {
+        "line1": "1221 Oak Street",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-6565"
+      ],
+      "urls": [
+       "http://www.acgov.org/auditor/"
+      ]
+     },
+     {
+      "name": "Henry C. Levy",
+      "address": [
+       {
+        "line1": "1221 Oak Street",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-6800"
+      ],
+      "urls": [
+       "http://www.acgov.org/treasurer/"
+      ]
+     },
+     {
+      "name": "Gregory Ahern",
+      "address": [
+       {
+        "line1": "1401 Lakeside Drive",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-6878"
+      ],
+      "urls": [
+       "https://www.alamedacountysheriff.org/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "ACSOSheriffs"
+       },
+       {
+        "type": "Twitter",
+        "id": "ACSOSheriffs"
+       }
+      ]
+     },
+     {
+      "name": "Phong La",
+      "address": [
+       {
+        "line1": "1221 Oak Street",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-3787"
+      ],
+      "urls": [
+       "http://www.acgov.org/assessor/"
+      ]
+     },
+     {
+      "name": "L. Karen Monroe",
+      "address": [
+       {
+        "line1": "313 West Winton Avenue",
+        "city": "Hayward",
+        "state": "CA",
+        "zip": "94544"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 887-0152"
+      ],
+      "urls": [
+       "https://www.acoe.org/"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "alamedacoe"
+       },
+       {
+        "type": "Twitter",
+        "id": "AlamedaCOE"
+       }
+      ]
+     },
+     {
+      "name": "Nancy O'Malley",
+      "address": [
+       {
+        "line1": "1225 Fallon Street",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 272-6222"
+      ],
+      "urls": [
+       "http://www.alcoda.org/"
+      ],
+      "emails": [
+       "info@alcoda.org"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "AlamedaCountyDA"
+       },
+       {
+        "type": "Twitter",
+        "id": "AlamedaCountyDA"
+       }
+      ]
+     },
+     {
+      "name": "Barbara J. Parker",
+      "address": [
+       {
+        "line1": "1 Frank H. Ogawa Plaza",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 238-3601"
+      ],
+      "emails": [
+       "info@oaklandcityattorney.org"
+      ]
+     },
+     {
+      "name": "Rebecca Kaplan",
+      "address": [
+       {
+        "line1": "1 Frank H. Ogawa Plaza",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 238-7008"
+      ],
+      "urls": [
+       "https://www.oaklandca.gov/officials/rebecca-kaplan"
+      ],
+      "photoUrl": "http://www2.oaklandnet.com/oakca1/groups/citycouncil/documents/image/oak037232.png",
+      "emails": [
+       "atlarge@oaklandnet.com"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "rebecca.kaplan.336"
+       },
+       {
+        "type": "Twitter",
+        "id": "kaplan4oakland"
+       }
+      ]
+     },
+     {
+      "name": "Libby Schaaf",
+      "address": [
+       {
+        "line1": "1 Frank H. Ogawa Plaza",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 238-3141"
+      ],
+      "urls": [
+       "https://www.oaklandca.gov/officials/libby-schaaf"
+      ],
+      "photoUrl": "http://www2.oaklandnet.com/oakca1/groups/ceda/documents/image/oak051245.jpg",
+      "emails": [
+       "officeofthemayor@oaklandnet.com"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "libbyschaaf"
+       },
+       {
+        "type": "Twitter",
+        "id": "LibbySchaaf"
+       }
+      ]
+     },
+     {
+      "name": "Courtney Ruby",
+      "address": [
+       {
+        "line1": "1 Frank H. Ogawa Plaza",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 238-3378"
+      ],
+      "urls": [
+       "https://www.oaklandauditor.com/"
+      ],
+      "emails": [
+       "cityauditor@oaklandnet.com"
+      ]
+     },
+     {
+      "name": "Lynette Gibson McElhaney",
+      "address": [
+       {
+        "line1": "1 Frank H. Ogawa Plaza",
+        "city": "Oakland",
+        "state": "CA",
+        "zip": "94612"
+       }
+      ],
+      "party": "Nonpartisan",
+      "phones": [
+       "(510) 238-7003",
+       "(510) 238-7245"
+      ],
+      "urls": [
+       "https://www.oaklandca.gov/officials/lynette-gibson-mcelhaney"
+      ],
+      "photoUrl": "http://www2.oaklandnet.com/oakca1/groups/citycouncil/documents/image/oak039993.jpg",
+      "emails": [
+       "LMcElhaney@oaklandnet.com"
+      ],
+      "channels": [
+       {
+        "type": "Facebook",
+        "id": "LynetteforOakland"
+       },
+       {
+        "type": "Twitter",
+        "id": "LynetteGM"
+       }
+      ]
+     }
+    ]
+   }
+   

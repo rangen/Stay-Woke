@@ -22,14 +22,13 @@ class InitialSetup < ActiveRecord::Migration[4.2]
 
     create_table :donations do |t|
       t.integer :donor_id
-      t.integer :politician_id
+      t.integer :committee_id
       t.integer :amount
       t.datetime :date
     end
 
     create_table :donors do |t|
-      t.string :first_name
-      t.string :last_name
+      t.string :name
     end
 
   end

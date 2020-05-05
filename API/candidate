@@ -8,12 +8,13 @@ https://api.open.fec.gov/v1/candidate/H2CA31125/committees/?page=1&sort_nulls_la
 The candidate/<candidate_id> /committees
 
 https://api.open.fec.gov/v1/names/candidates/?api_key=QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M&q=aguilar
-Easy search feature for finding candidate ID / committee name   (search/names/candidates/)        also returns 'office_sought'  P/S/H
+Easy search feature for finding candidate ID /    (search/names/candidates/)        also returns 'office_sought'  P/S/H
 
 https://api.open.fec.gov/v1/candidate/H2CA31125/filings/?api_key=QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M&page=1&sort_hide_null=false&sort_nulls_last=false&sort=-receipt_date&per_page=20&sort_null_only=false
 Candidate filings  "Candidacy",  "Statement, etc."
 
 
 https://api.open.fec.gov/v1/candidate/P60007168/committees?api_key=QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M
-Bernie for President
+Bernie for President   and all of his committees!!!!
+
 

@@ -1,5 +1,5 @@
 class Donation < ActiveRecord::Base
-    belongs_to :politician
+    belongs_to :committee
     belongs_to :donor
 
     

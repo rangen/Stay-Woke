@@ -9,17 +9,21 @@ don = User.create(first_name: "Don", last_name: "Mallory", street_address: "2302
 
 #  if we us API, how do we use Ave/Street/Blvd?
 
-bern = Politician.create(first_name: "Bernie", last_name: "Sanders")
-warren = Politician.create(first_name: "Elizabeth", last_name: "Warren")
+bern = Politician.create(name: "Bernie Sanders")
+warren = Politician.create(name: "Elizabeth Warren")
 
-hader = Donor.create(first_name: "Bill", last_name: "Hader")
-gwen = Donor.create(first_name: "Gwen", last_name: "Stefani")
-uma = Donor.create(first_name: "Uma", last_name: "Thurman")
+hader = Donor.create(name: "Bill")
+gwen = Donor.create(name: "Gwen Stefani")
+uma = Donor.create(name: "Uma Thurman")
 
-first = Donation.create(donor: hader, amount: 5000, date: Time.now, politician: bern)
-second = Donation.create(donor: gwen, amount: 62000, date: Time.now, politician: warren)
-third = Donation.create(donor: uma, amount: 1200, date: Time.now, politician: warren)
-fourth = Donation.create(donor: uma, amount: 69420, date: Time.now, politician: warren)
+warren_win = Committee.create(name: "Warren!!!!", fec_id: "Cff9929")
+bernie_win = Committee.create(name: "Bernie 2016", fec_id: "C999929")
+
+
+first = Donation.create(donor: hader, amount: 5000, date: Time.now, committee: bernie_win)
+second = Donation.create(donor: gwen, amount: 62000, date: Time.now, committee: warren_win)
+third = Donation.create(donor: uma, amount: 1200, date: Time.now, committee: warren_win)
+fourth = Donation.create(donor: uma, amount: 69420, date: Time.now, committee: warren_win)
 
 
 bern.save

@@ -13,9 +13,14 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
+    async (1.26.0)
+      console (~> 1.0)
+      nio4r (~> 2.3)
+      timers (~> 4.1)
     awesome_print (1.8.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
+    console (1.8.2)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     http-accept (1.7.0)
@@ -32,6 +37,7 @@ GEM
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
+    nio4r (2.5.2)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -57,6 +63,7 @@ GEM
     sqlite3 (1.4.2)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    timers (4.3.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -68,6 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 5.2.3)
+  async
   awesome_print
   json
   pry

@@ -10,23 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_05_041519) do
+ActiveRecord::Schema.define(version: 2020_05_05_081325) do
+
+  create_table "committees", force: :cascade do |t|
+    t.string "fec_id"
+    t.string "name"
+  end
+
+  create_table "committees_politicians", id: false, force: :cascade do |t|
+    t.integer "politician_id", null: false
+    t.integer "committee_id", null: false
+  end
 
   create_table "donations", force: :cascade do |t|
     t.integer "donor_id"
-    t.integer "politician_id"
+    t.integer "committee_id"
     t.integer "amount"
     t.datetime "date"
   end
 
   create_table "donors", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
   end
 
   create_table "politicians", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
   end
 
   create_table "users", force: :cascade do |t|
