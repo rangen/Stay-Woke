@@ -1,6 +1,5 @@
 # require 'async'
 # require_relative './find_candidate_id'
-# API_KEY = "QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M"
 
 
 #  Async do

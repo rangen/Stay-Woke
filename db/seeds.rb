@@ -4,8 +4,8 @@ Donor.destroy_all
 Donation.destroy_all
 
 
-tisdale = User.create(first_name: "Tisdale", last_name: "Fry", street_address: "1543 26th Ave", zip_code: 94122)
-don = User.create(first_name: "Don", last_name: "Mallory", street_address: "2302 Valdez", zip_code: 94612)
+tisdale = User.create(first_name: "Tisdale", last_name: "Fry", address: "1543 26th Ave San Francisco CA", zip_code: 94122)
+don = User.create(first_name: "Don", last_name: "Mallory", address: "2302 Valdez Oakland CA", zip_code: 94612)
 
 #  if we us API, how do we use Ave/Street/Blvd?
 

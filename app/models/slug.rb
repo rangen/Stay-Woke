@@ -1,10 +1,12 @@
 module Slug
-    def build_out_params(args)
-        args.each_pair {|k, v| slug += "&#{k}=#{v}"}
-        encode(slug)
+    def self.build_params(args)
+        str = ""
+        args.each_pair {|k, v| str += "&#{k}=#{v}"}
+        puts str
+        encode(str)
     end
 
-    def encode(str)
+    def self.encode(str)
         str.gsub(" ", "%20")
     end
 end
