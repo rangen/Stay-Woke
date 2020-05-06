@@ -7,6 +7,7 @@ class JSONByURL
 
     def snag
           #code error responses here to more easily catch in individual class methods
-        response = JSON.parse(RestClient.get(url))
+        puts "Sending JSON Request: #{url}"
+          response = JSON.parse(RestClient.get(url))
     end
 end

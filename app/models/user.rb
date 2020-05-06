@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-    include Slug
     has_and_belongs_to_many :politicians
     
     def find_my_servants
@@ -31,7 +30,9 @@ class User < ActiveRecord::Base
 
         res["offices"].each do |office|
             office["officialIndices"].each do |index|
-                servants[index] = {:name => res["officials"][index]["name"]}
+                servant_name = res["officials"][index]["name"]
+                servant_name = Slug.scrub_name(servant_name) if servant_name.split.count > 2 
+                servants[index] = {:name => servant_name}
                 servants[index][:party] = res["officials"][index]["party"]
                 servants[index][:twitter] = res["officials"][index]["channels"].find {|h| h["type"] == "Twitter"}["id"]
                 servants[index][:domain] = polIndices[index][:domain]
@@ -42,6 +43,10 @@ class User < ActiveRecord::Base
         servants.each_value do |rep|
             pol = Politician.find_or_create_by(rep)
             self.politicians << pol if !self.politicians.include?(pol)
+            if !pol.candidate_id  #populate the Politician's Candidate_ID for this Title if haven't already retrieved.
+                seeker = FindCandidateID.new(pol)
+                pol.update(candidate_id: seeker.seek)
+            end
         end
         
         servants #change to res to view output of JSON
