@@ -6,14 +6,15 @@ Committee.destroy_all
 
 
 
-tisdale = User.create(first_name: "Tisdale", last_name: "Fry", address: "1543 26th Ave San Francisco CA", zip_code: 94122)
-don = User.create(first_name: "Don", last_name: "Mallory", address: "2302 Valdez Oakland CA", zip_code: 94612)
-drew = User.create(first_name: "Drew", last_name: "Majoulet", address: "1816 E 6th Austin TX")
+# tisdale = User.create(first_name: "Tisdale", last_name: "Fry", address: "1543 26th Ave San Francisco CA", zip_code: 94122)
+# don = User.create(first_name: "Don", last_name: "Mallory", address: "2302 Valdez Oakland CA", zip_code: 94612)
+# drew = User.create(first_name: "Drew", last_name: "Majoulet", address: "1816 E 6th Austin TX")
+molly = User.create(address: "2504 Iowa Chicago IL")
 
 
-tisdale.find_my_servants
-don.find_my_servants
-drew.find_my_servants
+# tisdale.find_my_servants
+# don.find_my_servants
+molly.find_my_servants
 
 
 

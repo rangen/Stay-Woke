@@ -56,5 +56,12 @@ class User < ActiveRecord::Base
         Politician.create(args)
     end
 
+    #simple instance method to show capability
+    def show_my_local_donors
+        self.politicians[0].committees[0].donations.map do |d|
+            puts "#{d.donor.name} #{d.donor.street_1} #{d.donor.city}   $$#{d.amount}         #{d.donor.occupation} @ #{d.donor.employer}"
+        end
+    end
+
     
 end

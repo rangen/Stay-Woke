@@ -22,7 +22,7 @@ class GetCommitteeReceipts
         donations.select! {|d| d["is_individual"]}  #MUTATES ARRAY!!!! KEEPS ONLY WHERE FIELD is_individual = true, AVOIDING DUPLICATE RECORDS FROM INTERNAL MEMOS
         
         #build an array of hashes of 2-element hashes (:donation & :donor) to pass to save_donation method
-        page = donations.map {|d| {:donation=> {amount: d["contributor_receipt_amount"], date: d["contribution_receipt_date"]}, :donor=> {zip: d["contributor_zip"], name: d["contributor_name"], street_1: d["contributor_street_1"], street_2: d["contributor_street_2"], employer: d["contributor_employer"], state: d["contributor_state"], city: d["city"], occupation: d["contributor_occupation"], line_number: d["line_number"]}}}    
+        page = donations.map {|d| {:donation=> {amount: d["contribution_receipt_amount"], date: d["contribution_receipt_date"]}, :donor=> {zip: d["contributor_zip"], name: d["contributor_name"], street_1: d["contributor_street_1"], street_2: d["contributor_street_2"], employer: d["contributor_employer"], state: d["contributor_state"], city: d["contributor_city"], occupation: d["contributor_occupation"], line_number: d["line_number"]}}}    
         @last_index = res["pagination"]["last_indexes"]["last_index"]               #set pagination
         @last_date = res["pagination"]["last_indexes"]["last_contribution_receipt_date"]    #set pagination part 2
         

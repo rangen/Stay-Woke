@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_091205) do
+ActiveRecord::Schema.define(version: 2020_05_06_152055) do
 
   create_table "committees", force: :cascade do |t|
     t.string "fec_id"
