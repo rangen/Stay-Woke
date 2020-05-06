@@ -10,11 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_001404) do
+ActiveRecord::Schema.define(version: 2020_05_06_025554) do
 
   create_table "committees", force: :cascade do |t|
     t.string "fec_id"
     t.string "name"
+    t.string "designation_full"
+    t.string "alt_name"
+    t.string "org_type"
   end
 
   create_table "committees_politicians", id: false, force: :cascade do |t|
