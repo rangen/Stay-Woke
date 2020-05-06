@@ -8,10 +8,12 @@ Committee.destroy_all
 
 tisdale = User.create(first_name: "Tisdale", last_name: "Fry", address: "1543 26th Ave San Francisco CA", zip_code: 94122)
 don = User.create(first_name: "Don", last_name: "Mallory", address: "2302 Valdez Oakland CA", zip_code: 94612)
+drew = User.create(first_name: "Drew", last_name: "Majoulet", address: "5205 Buffalo Pass Austin TX")
 
 
 tisdale.find_my_servants
 don.find_my_servants
+drew.find_my_servants
 
 
 

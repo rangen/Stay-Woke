@@ -15,7 +15,7 @@ class GetCandidateInfo
 
     def create_committee(committee)
         c = committee
-        args = {name: c["name"], designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], org_type: c["organization_type"], fec_id: c["committee_id"]}
+        args = {name: c["name"], designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], org_type: c["organization_type"], fec_id: c["committee_id"], last_file_date: c["last_file_date"]}
 
         if !Committee.find_by(args)
             com = Committee.create(args)
