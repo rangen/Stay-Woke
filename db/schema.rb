@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_054731) do
+ActiveRecord::Schema.define(version: 2020_05_06_091205) do
 
   create_table "committees", force: :cascade do |t|
     t.string "fec_id"
@@ -31,13 +31,18 @@ ActiveRecord::Schema.define(version: 2020_05_06_054731) do
     t.integer "committee_id"
     t.integer "amount"
     t.datetime "date"
-    t.integer "zip"
-    t.string "entity_type"
-    t.string "name"
   end
 
   create_table "donors", force: :cascade do |t|
     t.string "name"
+    t.string "occupation"
+    t.string "street_1"
+    t.string "street_2"
+    t.integer "zip"
+    t.string "city"
+    t.string "state"
+    t.string "employer"
+    t.string "line_number"
   end
 
   create_table "politicians", force: :cascade do |t|

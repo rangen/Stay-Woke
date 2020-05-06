@@ -18,3 +18,8 @@ drew.find_my_servants
 
 
 Politician.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek}
+
+Committee.all.each{|com| GetCommitteeReceipts.new(com).seek}
+
+#Log FEC API calls for session?
+#drop old committees?  We should be filtering for old ones

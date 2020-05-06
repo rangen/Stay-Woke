@@ -1,0 +1,22 @@
+contribution_receipt_amount     YES
+contributor_occupation       DONOR
+contributor_street_1         DONOR
+link_id                   DON'T THINK SO; MAYBE IF DUPES SHOWING UP
+transaction_id             ""
+contributor_street_2          APT 19 et. al  
+contributor_first_name         DONOR
+contributor_city               DONOR
+unused_contbr_id                 INTERESTING...not sure we need
+contributor_employer             DONOR
+two_year_transaction_period          NOT SURE
+contributor_last_name                 COLEMAN
+line_number                        maybe?  tells type of interest
+contributor_zip                     DONOR
+contributor_name                    Oh, already have?
+
+
+
+           page = donations.map 
+           
+           {|d| {:donation=> {amount: d["contributor_receipt_amount"], date: d["contribution_receipt_date"]},
+            :donor=> {zip: d["contributor_zip"], name: d["contributor_name"], street_1: d["contributor_street_1"], street_2: d["contributor_street_2"], employer: d["contributor_employer"], state: d["contributor_state"], city: d["city"], occupation: d["contributor_occupation"], line_number: d["line_number"]}}    
