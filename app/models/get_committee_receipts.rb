@@ -39,7 +39,7 @@ class GetCommitteeReceipts
         page.each {|item| save_donation(item)}
         pct_done = (@num_accessed.to_f / @stop_after * 100).round(1)   #xx.x% format for progress downloading records per flags [flags to:do]
         puts "#{pct_done}% complete.  Downloaded #{@num_accessed} of #{@stop_after} from a total of #{@record_count} records."
-        @num_accessed < @stop_after ? seek : @committee.update(last_date: @last_date, last_index: @last_index)   #keep seeking.....if done, push last record retrieved into db
+        @num_accessed < @stop_after ? seek : @committee.update(last_date: @last_date, last_index: @last_index, num_records_downloaded: @num_accessed + (@committee.num_records_downloaded || 0))   #keep seeking.....if done, push last record retrieved into db
         # res  #un-comment to view JSON data for this page
     end
 

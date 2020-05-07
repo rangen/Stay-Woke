@@ -14,7 +14,7 @@ class GetCandidateInfo
     end
 
     def create_committee(c)
-        cycles = "#{c["cycles"][0]} - #{c["cycles"][-1]}"   #the -1 is for you, Parsons :p
+        cycles = "#{c["cycles"][0]} ~ #{c["cycles"][-1]}"   #the -1 is for you, Parsons :p
         args = {name: c["name"], cycles_active: cycles, designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], fec_id: c["committee_id"], first_file_date: c["first_file_date"], last_file_date: c["last_file_date"]}
 
         if !Committee.find_by(args) 

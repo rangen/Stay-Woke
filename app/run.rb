@@ -20,13 +20,11 @@ class StayWokeCLI
 
     def new_user
         args = {}
-        resp = @prompt.ask("We've been expecting you. It's never too late to wake up and find out what's going on. Staying woke takes daily practice and mindfulness.  Let's help you with that by setting up a user profile. If I need to ask you a question, what is your first name?")
-        args[:first_name] = resp #logic check for one word
-        resp = @prompt.ask("Thanks, #{args[:first_name]}.  We won't share your information to any third-party vendors (until we get Series A Funding, at least).  Is there a family name you'd like to use?")
-        args[:last_name] = resp
-        resp = @prompt.ask("In order to properly assist you #{args[:first_name]}, your address will be required. This information will be kept completely private unless you try to break our code.")
-        args[:address] = resp
+        args[:first_name] = @prompt.ask("We've been expecting you. It's never too late to wake up and find out what's going on. Staying woke takes daily practice and mindfulness.  Let's help you with that by setting up a user profile. If I need to ask you a question, what is your first name?")
+        args[:last_name] = @prompt.ask("Thanks, #{args[:first_name]}.  We won't share your information to any third-party vendors (until we get Series A Funding, at least).  Is there a family name you'd like to use?")
+        args[:address] = @prompt.ask("In order to properly assist you #{args[:first_name]}, your address will be required. This information will be kept completely private unless you try to break our code.")
         seed_initial_data(args)
+        puts "Let's fucking do this! You'll need a password to access the system."
     end
 
     def find_user_name #displays users in database  and user can select one to attempt to log in with
@@ -164,7 +162,7 @@ class StayWokeCLI
         @temp_active ? @temp_user = hold_me : @user = hold_me
     end
 end
-#run.rb will start here  (maybe some require_relative statements idfk but just the below codes)
+# #run.rb will start here  (maybe some require_relative statements idfk but just the below codes)
 sess = StayWokeCLI.new
 puts sess.welcome
 sess.main_menu
