@@ -155,7 +155,7 @@ class StayWokeCLI
         hold_me = User.create(args)
         hold_me.find_my_servants
         puts "Retrieving info about: " + hold_me.politicians.pluck(:name).join("    ")
-        hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek}
+        hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek if Politician.find_by(candidate_id: can).committees.empty?}
         hold_me.politicians.each do |pol|
             pol.committees.each {|com| GetCommitteeReceipts.new(com, true).seek} 
         end
