@@ -5,12 +5,12 @@ class GetCommitteeReceipts
     def initialize(committee, flags = {})
         @id = committee[:fec_id]     #need to set a start date....Nancy Pelosi pulled records from 1987 into DB
         @committee = committee
-        @stop_after = 200            #watch for key-stroke to stop download?    show status of x / total downloaded?
+        @stop_after = 10            #watch for key-stroke to stop download?    show status of x / total downloaded?
         @num_accessed = 0
     end                             #wishing you luck with your re-election! lol   
 
     def seek
-        args = {sort: "-contribution_receipt_date", api_key: API_KEY[:fec], committee_id: id, per_page: 100, last_index: @last_index, last_contribution_receipt_date: @last_date}
+        args = {sort: "-contribution_receipt_date", api_key: API_KEY[:fec], committee_id: id, per_page: 10, last_index: @last_index, last_contribution_receipt_date: @last_date}
         json = JSONByURL.new("https://api.open.fec.gov/v1/schedules/schedule_a?" + Slug.build_params(args))
 
         res = json.snag 

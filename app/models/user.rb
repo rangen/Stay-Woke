@@ -34,7 +34,23 @@ class User < ActiveRecord::Base
                 servant_name = Slug.scrub_name(servant_name) if servant_name.split.count > 2 
                 servants[index] = {:name => servant_name}
                 servants[index][:party] = res["officials"][index]["party"]
-                servants[index][:twitter] = res["officials"][index]["channels"].find {|h| h["type"] == "Twitter"}["id"]
+
+                
+                e = res["officials"][index]["emails"]
+                servants[index][:email] = e.nil? ? "Not Listed" : e[0]
+                t = res["officials"][index]["channels"].find {|h| h["type"] == "Twitter"}
+                servants[index][:twitter] = t.nil? ? "Not Listed" : t["id"]
+
+                f = res["officials"][index]["channels"].find {|h| h["type"] == "Facebook"}    #gnarly AF refactor?
+                servants[index][:facebook] = f.nil? ? "Not Listed" : f["id"]
+
+                i = res["officials"][index]["channels"].find {|h| h["type"] == "Instagram"}
+                servants[index][:instagram] = i.nil? ? "Not Listed" : i["id"]
+
+                y = res["officials"][index]["channels"].find {|h| h["type"] == "YouTube"}
+                servants[index][:youtube] = y.nil? ? "Not Listed" : y["id"]
+                
+
                 servants[index][:domain] = polIndices[index][:domain]
                 servants[index][:title] = polIndices[index][:title]
             end
