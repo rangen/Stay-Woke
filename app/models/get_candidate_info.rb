@@ -13,11 +13,11 @@ class GetCandidateInfo
         res["results"][0]["principal_committees"].each {|com| create_committee(com)}
     end
 
-    def create_committee(committee)
-        c = committee
-        args = {name: c["name"], designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], org_type: c["organization_type"], fec_id: c["committee_id"], last_file_date: c["last_file_date"]}
+    def create_committee(c)
+        cycles = "#{c["cycles"][0]} - #{c["cycles"][-1]}"   #the -1 is for you, Parsons :p
+        args = {name: c["name"], cycles_active: cycles, designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], fec_id: c["committee_id"], first_file_date: c["first_file_date"], last_file_date: c["last_file_date"]}
 
-        if !Committee.find_by(args)
+        if !Committee.find_by(args) 
             com = Committee.create(args)
             Politician.find_by(candidate_id: id).committees << com
         end

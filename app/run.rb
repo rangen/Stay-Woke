@@ -50,5 +50,5 @@ class StayWokeCLI
     def main_menu
     end
 end
-sess = StayWokeCLI.new
-sess.welcome
+# sess = StayWokeCLI.new
+# sess.welcome
