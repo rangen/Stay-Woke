@@ -61,10 +61,12 @@ class StayWokeCLI
         #check and branch to new_user or set instance variables
     end
     def main_menu
-        choices = {"Exit" => 1,
-             "Show information for my district" => 2,
-             "Show information for an other district" => 3,
-             "Settings" => 4
+        @temp_active = false #reset temp_user when returning to main menu
+        @temp_user = nil
+        
+        choices = {"Show Information for My District" => 2,
+             "Show Information for Another District" => 3,
+             "Settings" => 4, "Exit" => 1
             }
        resp = @prompt.select("Please choose from one of the following:", choices, cycle: true)
        case resp
@@ -75,7 +77,7 @@ class StayWokeCLI
         when 3
             info_for_district(retrieve_other_address_as_user_obj)
         when 4
-        settings
+            settings
        end
     end
     def exit
@@ -88,8 +90,8 @@ class StayWokeCLI
         @temp_active = true
         @temp_user
     end
+
     def info_for_district(user)
-       #@address = @user.address
        choices = {user.politicians[0].name => 1, user.politicians[1].name => 2, user.politicians[2].name => 3, "Return to Main Menu" => 4}
        resp = @prompt.select("Please choose one of the following:", choices, cycle: true)
        case resp
@@ -103,6 +105,7 @@ class StayWokeCLI
         main_menu
        end
     end
+
     def show_politician_info(pol)   #
         choices = {pol.domain=>1, pol.title=>2, "@" + pol.twitter=>3, "Return to District"=>4}
         resp = @prompt.select("Showing Info for #{pol.name}", choices)
@@ -112,6 +115,7 @@ class StayWokeCLI
             info_for_district(result)
         end
     end
+
     def settings
         choices = {"Delete Data" => 1,
             "Delete Account" => 2,
