@@ -5,16 +5,19 @@ ActiveRecord::Base.establish_connection(
 class StayWokeCLI
     attr_accessor :user, :temp_user, :temp_active
     attr_reader :heart
+
     def initialize
         @prompt = TTY::Prompt.new
         @heart = @prompt.decorate(@prompt.symbols[:heart] + ' ', :bright_magenta)
         @temp_active = false
     end
+
     def welcome
       resp = @prompt.yes?('Welcome to Stay Woke! Is it your first time waking up?')
-      resp ? new_user : find_user_name
+      resp || User.first.nil? ? new_user : find_user_name  #pretty genius || to stop login attempt to an empty db :)
       login
     end
+
     def new_user
         args = {}
         resp = @prompt.ask("We've been expecting you. It's never too late to wake up and find out what's going on. Staying woke takes daily practice and mindfulness.  Let's help you with that by setting up a user profile. If I need to ask you a question, what is your first name?")
@@ -23,14 +26,9 @@ class StayWokeCLI
         args[:last_name] = resp
         resp = @prompt.ask("In order to properly assist you #{args[:first_name]}, your address will be required. This information will be kept completely private unless you try to break our code.")
         args[:address] = resp
-        @user = User.create(args)
-        #Populate initial info for the new users' politicians
-        @user.find_my_servants
-        @user.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek}
-        @user.politicians.each do |pol|
-            pol.committees.each {|com| GetCommitteeReceipts.new(com, true).seek} 
-        end
+        seed_initial_data(args)
     end
+
     def find_user_name #displays users in database  and user can select one to attempt to log in with
        names = User.all.map do |n|
             "#{n[:first_name]} #{n[:last_name]}"
@@ -45,6 +43,7 @@ class StayWokeCLI
         # end
         # @user = @prompt.select("Select a user:", Hash[choices]) 
     end
+
     def login
         #checks the newly loaded @user variable for a password.  if new user, create and exit w/ true.  if password, ask for password and rturn
         if @user.password.nil?
@@ -60,10 +59,11 @@ class StayWokeCLI
          end
         #check and branch to new_user or set instance variables
     end
+
     def main_menu
         @temp_active = false #reset temp_user when returning to main menu
         @temp_user = nil
-        
+
         choices = {"Show Information for My District" => 2,
              "Show Information for Another District" => 3,
              "Settings" => 4, "Exit" => 1
@@ -80,14 +80,15 @@ class StayWokeCLI
             settings
        end
     end
+
     def exit
-        puts "Enjoy your slumber. Come back when you're ready to be woke."
+        puts "Enjoy your slumber. Come back when you're ready to be woke."  #colorify this shit Tisdale!
     end
+
     def retrieve_other_address_as_user_obj  #give user a chance to enter a new address to see data for; give option for random address with 'random'
         other_address = @prompt.ask("Enter a US address or 'random' to retrieve district info:", default: "1520 Marion Lincoln Park MI")
-        @temp_user = User.create(address: other_address)
-        @temp_user.find_my_servants
         @temp_active = true
+        seed_initial_data(address: other_address)
         @temp_user
     end
 
@@ -147,6 +148,20 @@ class StayWokeCLI
     end
     def exit
        puts "Enjoy your slumber. Come back when you're ready to be woke."
+    end
+
+    private
+    
+    def seed_initial_data(args)
+        puts "Building your initial dataset...."   #COLORIFY TISDALE
+        hold_me = User.create(args)
+        hold_me.find_my_servants
+        puts "Retrieving info about: " + hold_me.politicians.pluck(:name).join("    ")
+        hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek}
+        hold_me.politicians.each do |pol|
+            pol.committees.each {|com| GetCommitteeReceipts.new(com, true).seek} 
+        end
+        @temp_active ? @temp_user = hold_me : @user = hold_me
     end
 end
 #run.rb will start here  (maybe some require_relative statements idfk but just the below codes)
