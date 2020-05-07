@@ -133,8 +133,16 @@ class StayWokeCLI
         welcome
     end
     def change_address
+        args = @user.attributes
+        args[:address] = @prompt.ask("Current Address: #{@user.address}   New Address?")
+        @user.destroy
+        @user = seed_initial_data(args)
+        settings
     end
     def change_password
+        @user.password = @prompt.ask("Current Password: #{@user.password}   New Password?")
+        @user.save
+        settings
     end
     def exit
        puts "Enjoy your slumber. Come back when you're ready to be woke."
