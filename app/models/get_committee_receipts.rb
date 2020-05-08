@@ -2,12 +2,12 @@ class GetCommitteeReceipts
     attr_reader :id, :committee, :stop_after         #transaction period????  Two year default, it looks like?
     attr_accessor :num_accessed, :last_index, :last_date, :record_count, :save_record_info_to_db
 
-    def initialize(committee, initial_download = false, flags = {})
+    def initialize(committee, flags = {})
         @id = committee[:fec_id]     #need to set a start date....Nancy Pelosi pulled records from 1987 into DB   FIX:  Go DESC instead
         @committee = committee
-        @stop_after = 300            #watch for key-stroke to stop download?    show status of x / total downloaded?
+        @stop_after = flags[:stop_after] || 300 #watch for key-stroke to stop download?    show status of x / total downloaded?
         @num_accessed = 0
-        @save_record_info_to_db = initial_download
+        @save_record_info_to_db = flags[:initial_download] || false
         @last_index = committee.last_index  #load previous values if exists!
         @last_date = committee.last_date    #load previous values if exists!
     end                             #wishing you luck with your re-election! lol   

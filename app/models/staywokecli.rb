@@ -181,14 +181,28 @@ class StayWokeCLI
     
 
     def view_random_donation
+        pol = @current_politician
+        com = @current_committee
+        wipe
+        donor_count = com.donations.map{|x| x.donor_id}.uniq.count
 
+        choices = [{name: "View Donation (random)", value: :random},
+        {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
+        {name: "Return to Committee Info", value: :exit}]
+
+        resp = @prompt.select(top_bar + "\n" + "Schedule A ".green + "Contributions to #{com.name.light_yellow}" +
+               "\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
+               "\n\n" + "Unique Donors:".rjust(25) + "   #{donor_count}" +
+               + "\n" + "Average Donation:".rjust(25) + "   $#{avg.to_s.green}\n\n", choices, @term_options)
+
+        case resp
     end
 
     def download_more_records
         pol = @current_politician
         com = @current_committee
         resp = @prompt.slider("How many " + "new records".red + " would you like to download?\nPlease check with your " + "FEC administrator".light_blue + " for hourly API call limits.", max: 2000, step: 100, default: 300)
-        result = GetCommitteeReceipts.new(com).seek
+        result = GetCommitteeReceipts.new(com, {:stop_after => resp}).seek
         com.reload
         view_donation_info
     end
