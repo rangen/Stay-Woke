@@ -15,11 +15,17 @@ class StayWokeCLI
       puts wake_up "Welcome to Stay Woke!"
       choices = {"Yes, open my eyes"=> :new, "No, I've been woke before"=>:existing, "Oh, when he says all that stuff, I just...I can't..".red=>:exit}
       resp = @prompt.select("\nIs it your first time waking up?".light_yellow, choices, @term_options)
-      resp = :new if User.first.nil?
+      
         case resp
         when :exit 
             return
         when :existing       
+            if User.first.nil?
+                wipe
+                puts "No users found. Please create a new account. \n
+                You think you've been " + wake_up("woke.") + "\n\n - You've actually been dreaming your whole life.  But it's not too late..."
+                return
+            end
             find_user_name
             login
         else
@@ -158,7 +164,7 @@ class StayWokeCLI
         wipe
         donor_count = com.donations.map{|x| x.donor_id}.uniq.count
         total = com.donations.pluck(:amount).sum
-        avg = (total / donor_count.to_f).round(2)
+        avg = ((total / donor_count.to_f).round(2)).to_s.green
 
        choices = [{name: "View Donation (random)", value: :random},
         {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
@@ -167,7 +173,7 @@ class StayWokeCLI
         resp = @prompt.select(top_bar + "\n" + "Schedule A ".green + "Contributions to #{com.name.light_yellow}" +
                "\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
                "\n\n" + "Unique Donors:".rjust(25) + "   #{donor_count}" +
-               + "\n" + "Average Donation:".rjust(25) + "   $#{avg.to_s.green}\n\n", choices, @term_options)
+               + "\n" + "Average Donation:".rjust(25) + "   $#{avg}\n\n", choices, @term_options)
 
         case resp
         when :random
@@ -184,24 +190,25 @@ class StayWokeCLI
         pol = @current_politician
         com = @current_committee
         wipe
-        donor_count = com.donations.map{|x| x.donor_id}.uniq.count
-
-        choices = [{name: "View Donation (random)", value: :random},
+        
+       choices = [{name: "View Donation (random)", value: :random},
         {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
         {name: "Return to Committee Info", value: :exit}]
 
-        resp = @prompt.select(top_bar + "\n" + "Schedule A ".green + "Contributions to #{com.name.light_yellow}" +
-               "\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
-               "\n\n" + "Unique Donors:".rjust(25) + "   #{donor_count}" +
-               + "\n" + "Average Donation:".rjust(25) + "   $#{avg.to_s.green}\n\n", choices, @term_options)
+        resp = @prompt.select(top_bar + "\nDonation Earmarked for #{pol.name.light_yellow}" +
+               "\n(via  #{com.name}" + "\n-------------------------------------------------------".light_yellow + 
+               "\n\n" + "Donors:".rjust(25) + "   " +
+                "\nAverage Donation:".rjust(25) + "", choices, @term_options)
 
-        case resp
+       
+            view_donation_info
+        
     end
 
     def download_more_records
         pol = @current_politician
         com = @current_committee
-        resp = @prompt.slider("How many " + "new records".red + " would you like to download?\nPlease check with your " + "FEC administrator".light_blue + " for hourly API call limits.", max: 2000, step: 100, default: 300)
+        resp = @prompt.slider("How many " + "new records".red + " would you like to download?\nPlease check with your " + "FEC administrator".light_blue + " for hourly API call limits.", max: 3000, step: 150, default: 300)
         result = GetCommitteeReceipts.new(com, {:stop_after => resp}).seek
         com.reload
         view_donation_info
@@ -258,10 +265,10 @@ class StayWokeCLI
 
     def view_my_account_settings
         wipe
-        view = "User: #{@user.first_name} #{@user.last_name}  Woke Since: #{@user.created_at.strftime("%B %d %Y")}\n" +
-                   "Address: #{@user.address} #{@user.zip_code}     Password: " + @user.password + "\n" +
-                   "Domains: #{@user.politicians.pluck(:domain).uniq.join(" *  *  * ".light_yellow)}" +
-                   "Donations I'm " + "Woke".light_blue.on_white + " to: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}}"
+        view = "User: ".light_blue + "#{@user.first_name} #{@user.last_name}" + "      Woke Since:".light_blue + "#{@user.created_at.strftime('%B %d %Y')}\n" +
+                   "\nAddress:".light_blue + " #{@user.address} #{@user.zip_code}  "  +  "Password:".red + " #{@user.password}" +
+                   "\n\nDomains:".light_blue + "  #{@user.politicians.pluck(:domain).uniq.join(" *  *  * ".light_yellow)}" +
+                   "\n\n" + "Donations".green +  " I'm " + "Woke".light_blue.on_white + " to: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}} and counting..."
         choices = {name: "Return to Settings", value: 0}
         resp = @prompt.select(view, choices, @term_options)
         settings
@@ -269,7 +276,8 @@ class StayWokeCLI
 
     def delete_my_user_account
         @user.destroy   #First let's prompt are you sure?   Remind them the politician records will remain, you are only deleting the user account
-        @user.politicians.delete(User.find(@user))
+        binding.pry
+        User.reload
         @user, @temp_user, @temp_active, @current_user, @current_committee, @current_politician = [nil] * 6   #punt session variables but we can keep session open, keeping run.rb clean
         wipe
         puts "Account deleted. Don't feed the hand that bites you.".red
@@ -324,7 +332,7 @@ class StayWokeCLI
         puts "Retrieving info about: ".blue + hold_me.politicians.pluck(:name).map{|x|x.green}.join("    ")
         hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek if Politician.find_by(candidate_id: can).committees.empty?}  #don't check if already checked
         hold_me.politicians.each do |pol|
-            pol.committees.each {|com| GetCommitteeReceipts.new(com, true).seek if com.last_index.nil?} 
+            pol.committees.each {|com| GetCommitteeReceipts.new(com, {initial_download: true}).seek if com.last_index.nil?} 
         end
         @temp_active ? @temp_user = hold_me : @user = hold_me
     end
