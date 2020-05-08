@@ -20,13 +20,13 @@ class StayWokeCLI
 
     def welcome
       puts wake_up "Welcome to Stay Woke!"
-      choices = {"Yes, open my eyes"=> :new, "No, I've been " + wake_up("woke") + " before"=>:existing, "I can't handle the truth..."=>:exit}
-      resp = @prompt.ask("\nIs it your first time waking up?")
-      
+      choices = {"Yes, open my eyes"=> :new, "No, I've been woke before"=>:existing, "Oh, when he says all that stuff, I just...I can't..".red=>:exit}
+      resp = @prompt.select("\nIs it your first time waking up?".light_yellow, choices, @term_options)
+      resp = :new if User.first.nil?
         case resp
         when :exit 
             return
-        when :existing && User.first       #pretty genius && to stop login attempt to an empty db :)
+        when :existing       
             find_user_name
         else
             new_user
@@ -37,39 +37,35 @@ class StayWokeCLI
     def new_user
         wipe
         args = @prompt.collect do
-            key(:first_name).ask("We've been expecting you!\n \nIt's never too late to " + "wake up".light_blue.on_white + " and find out what's going on.\n \nStaying woke takes daily practice and mindfulness.\n \nLet's help you " + "stay woke".light_blue.on_white + " by setting up a user profile.\nFirst Name: ")
-            key(:last_name).ask("Last name: ")
-            key(:address).ask("\nPerfect.".green + "\nThe first step in " + "staying woke ".light_blue.on_white + " is getting informed.\nEnter your address to get started: ")
+            key(:first_name).ask("We've been expecting you!\n \nIt's never too late to and find out what's going on.\n \nStaying woke takes daily practice and mindfulness.\n \nLet's help you stay woke by setting up a user profile.\n".light_yellow + "\nFirst Name: ".green)
+            key(:last_name).ask("Last name: ".green)
+            key(:address).ask("\nPerfect.".green + "\nThe first step in " + "staying woke ".light_blue.on_white + " is getting informed.\nEnter your " + "address".green + " to get started: ")
         end
         wipe
         seed_initial_data(args)        
-        puts "Let's fucking do this! You'll need a password to access the system."
+        puts "\nInitial data downloaded!".red + " We'll secure your local account access now."
     end
 
     def find_user_name #displays users in database  and user can select one to attempt to log in with
         wipe
-        names = User.all.map do |n|
-            "#{n[:first_name]} #{n[:last_name]}"   #oh man, refactor...so bad
-        end
-        resp = @prompt.select("Select a user:", names)
-        first, last = resp.split
-        @user = User.find_by(first_name: first, last_name: last)# could use new variable of name = first + last 
+        choices = User.all.reduce({}){|chc, usr| chc[usr.first_name + " " + usr.last_name] = usr.id; chc}
+        resp = @prompt.select("Select a User to Login:", choices, @term_options)
+        
+        @user = User.find(resp) 
     end
 
     def login
         #checks the newly loaded @user variable for a password.  if new user, create and exit w/ true.  if password, ask for password and rturn
         if @user.password.nil?
-            resp = @prompt.mask("Please create a password:", mask: @heart)
+            resp = @prompt.mask("Please create a " + "password:".green, mask: @heart)
             @user.update(password: resp)
-            return true
+            main_menu
         else 
              3.times do 
-                resp = @prompt.mask("Please enter your password:", mask: @heart)
-                return true if resp == @user.password
-             end
-             welcome #this is where they failed to login  
+                resp = @prompt.mask("Please enter your " + "password:".green, mask: @heart)
+                    main_menu if resp == @user.password
+                end
          end
-        #check and branch to new_user or set instance variables
     end
 
     def main_menu
@@ -147,13 +143,13 @@ class StayWokeCLI
         pol = @current_politician
         com = @current_committee
         wipe
-        pct = (com.num_records_downloaded / com.num_records_available.to_f * 100).round(1).to_s.blue
+        pct = (com.num_records_downloaded / com.num_records_available.to_f * 100).round(1).to_s + "%".blue
         choices = [{name: "View Donations to This Committee", value: :continue},
         {name: "Return to Committee Names", value: :exit}]
 
-        resp = @prompt.select(top_bar + pol.name + "\ncom.name + #{com.designation_full} a.k.a. #{com.alt_name}\n" +
-            "Active: #{com.cycles_active}   Individual Donations: #{com.num_records_available}" + 
-            "\nYou have downloaded #{com.num_records_downloaded}, or #{pct}% of them.", choices, @term_options)
+        resp = @prompt.select(top_bar + pol.name.light_yellow + "\n#{com.name} + #{com.designation_full} a.k.a. #{com.alt_name}\n" +
+            "Active: #{com.cycles_active}   Individual Donations: #{com.num_records_available.to_s.red}" + 
+            "\nYou have downloaded #{com.num_records_downloaded}, or #{pct} of them.", choices, @term_options)
 
         case resp
             when :continue
@@ -166,15 +162,21 @@ class StayWokeCLI
     def view_donation_info
         pol = @current_politician
         com = @current_committee
-       choices = [{name: "View Donor Stats", value: :donor_stats},
-        {name: "View Donation (random)", value: :random},
+        wipe
+        donor_count = com.donations.map{|x| x.donor_id}.uniq.count
+        total = com.donations.pluck(:amount).sum
+        avg = (total / donor_count.to_f).round(2)
+
+       choices = [{name: "View Donation (random)", value: :random},
         {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
         {name: "Return to Committee Info", value: :exit}]
 
-        resp = @prompt.select("Individual Contributions to #{com.name} (#{com.num_records_downloaded} downloaded)", choices, @term_options)
+        resp = @prompt.select(top_bar + "\n" + "Individual Contributions".green + "to #{com.name.light_yellow}" +
+               "\n(data from local download only - #{com.num_records_downloaded} records)".gray + 
+               "\n" + "Unique Donors:".rjust(25) + "     #{donor_count}".green +
+               + "\n" + "Average Donation:".rjust(25) + "   $#{avg}", choices, @term_options)
+
         case resp
-        when :donor_stats
-            donor_stats
         when :random
             view_random_donation
         when :download
@@ -183,10 +185,7 @@ class StayWokeCLI
             show_committee_info
         end
     end
-
-    def donor_stats
-
-    end
+    
 
     def view_random_donation
 
@@ -258,10 +257,10 @@ class StayWokeCLI
 
     def delete_my_user_account
         @user.destroy   #First let's prompt are you sure?   Remind them the politician records will remain, you are only deleting the user account
+        @user.politicians.delete(User.find(@user))
         @user, @temp_user, @temp_active, @current_user, @current_committee, @current_politician = [nil] * 6   #punt session variables but we can keep session open, keeping run.rb clean
         wipe
         puts "Account deleted. Don't feed the hand that bites you.".red
-        welcome #Great loop!  This is where we would start over (for some reason if we wanted to instead of changing address)
     end
 
     def change_address
@@ -300,7 +299,7 @@ class StayWokeCLI
     private
 
     def seed_initial_data(args)
-        puts "Building your initial dataset....".red   #COLORIFY TISDALE
+        puts "Building your initial dataset....".red   
         hold_me = User.create(args)
 
         pong = hold_me.find_my_servants #attempt to get data for new address
@@ -322,5 +321,4 @@ end
 sess = StayWokeCLI.new
 sess.wipe
 sess.welcome
-sess.main_menu
 
