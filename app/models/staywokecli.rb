@@ -1,3 +1,5 @@
+require 'colorize'
+
 class StayWokeCLI
     attr_accessor :user, :temp_user, :temp_active, :current_user, :current_committee, :current_politician, :term_height, :term_width, :term_options, :user_string
     attr_reader :heart
@@ -119,7 +121,7 @@ class StayWokeCLI
         pol = @current_politician
         pol.committees.each_with_index {|com, idx| choices[com.name] = idx}
         choices["Return to District"] = :exit
-        resp = @prompt.select(top_bar + "Select a Committee for #{pol.name}".purple, choices)
+        resp = @prompt.select(top_bar + "Select a Committee for #{pol.name}".light_yellow, choices)
 
         case resp
         when :exit
@@ -163,7 +165,7 @@ class StayWokeCLI
         {name: "Return to Committee Info", value: :exit}]
 
         resp = @prompt.select(top_bar + "\n" + "Individual Contributions".green + "to #{com.name.light_yellow}" +
-               "\n(data from local download only - #{com.num_records_downloaded} records)".gray + 
+               "\n(data from local download only - #{com.num_records_downloaded} records)".light_white + 
                "\n" + "Unique Donors:".rjust(25) + "     #{donor_count}".green +
                + "\n" + "Average Donation:".rjust(25) + "   $#{avg}", choices, @term_options)
 
@@ -186,6 +188,7 @@ class StayWokeCLI
         pol = @current_politician
         com = @current_committee
         result = GetCommitteeReceipts.new(com).seek
+        com.reload
         view_donation_info
     end
 
