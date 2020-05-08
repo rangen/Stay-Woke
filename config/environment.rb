@@ -1,6 +1,6 @@
 require 'tty-prompt'
 
-API_KEY = {:fec=> "QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M", :google=> "AIzaSyATHZvtmoZF0nhrPZumDtPQzeqgo4jw8Mo"}
+
 
 require "bundler/setup"
 Bundler.require
