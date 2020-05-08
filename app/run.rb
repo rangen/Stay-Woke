@@ -28,10 +28,11 @@ class StayWokeCLI
             return
         when :existing       
             find_user_name
+            login
         else
             new_user
+            login
         end
-        login
     end
 
     def new_user
@@ -61,11 +62,10 @@ class StayWokeCLI
             @user.update(password: resp)
             main_menu
         else 
-             3.times do 
-                resp = @prompt.mask("Please enter your " + "password:".green, mask: @heart)
-                    main_menu if resp == @user.password
-                end
-         end
+            resp = @prompt.mask("Please enter your " + "password:".green, mask: @heart)
+            main_menu if resp == @user.password
+            
+        end
     end
 
     def main_menu
@@ -192,7 +192,10 @@ class StayWokeCLI
     end
 
     def download_more_records
-
+        pol = @current_politician
+        com = @current_committee
+        result = GetCommitteeReceipts.new(com).seek
+        view_donation_info
     end
 
     def settings
