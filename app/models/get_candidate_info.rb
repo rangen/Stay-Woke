@@ -7,7 +7,7 @@ class GetCandidateInfo
 
     def seek
         args = {api_key: API_KEY[:fec], candidate_id: id}
-        json = JSONByURL.new("https://api.open.fec.gov/v1/candidates/search/?" + Slug.build_params(args), false)
+        json = JSONByURL.new("https://api.open.fec.gov/v1/candidates/search/?" + Slug.build_params(args), true)
         res = json.snag  #puts endpoint if errors occurring comment out finds
 
         res["results"][0]["principal_committees"].each {|com| create_committee(com)}

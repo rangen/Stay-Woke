@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
         #let's use Google Civic API to find my politicians using my address
         args = {:address=> self.address, :levels=> "country", :roles=>"legislatorUpperBody&roles=legislatorLowerBody", key: API_KEY[:google]}
         
-        json = JSONByURL.new("https://www.googleapis.com/civicinfo/v2/representatives?" + Slug.build_params(args))
+        json = JSONByURL.new("https://www.googleapis.com/civicinfo/v2/representatives?" + Slug.build_params(args), true)
         res = json.snag
 
         #save normalized address info :)  Thanks Google!
@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
         res["offices"].each do |office|
             office["officialIndices"].each do |index|
                 servant_name = res["officials"][index]["name"]
-                servant_name = Slug.scrub_name(servant_name) if servant_name.split.count > 2 
+                servant_name = Slug.scrub_name(servant_name) if servant_name.split.count > 2   #might not need!!!
                 servants[index] = {:name => servant_name}
                 servants[index][:party] = res["officials"][index]["party"]
 

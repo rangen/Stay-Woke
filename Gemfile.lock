@@ -19,6 +19,7 @@ GEM
       timers (~> 4.1)
     awesome_print (1.8.0)
     coderay (1.1.2)
+    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     console (1.8.2)
     domain_name (0.5.20190701)
@@ -94,6 +95,7 @@ DEPENDENCIES
   activerecord (~> 5.2.3)
   async
   awesome_print
+  colorize
   json
   pry
   rake

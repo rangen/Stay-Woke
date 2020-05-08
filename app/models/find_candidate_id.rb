@@ -19,6 +19,7 @@ class FindCandidateID
 
 
         args = {api_key: API_KEY[:fec], q: pol.name, party: party, district: district, office: office}
+        args[:q] = "Joseph Courtney" if args[:q] == "Joe Courtney"
         json = JSONByURL.new("https://api.open.fec.gov/v1/names/candidates/?" + Slug.build_params(args))
         res = json.snag
 
