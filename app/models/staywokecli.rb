@@ -146,9 +146,9 @@ class StayWokeCLI
         choices = [{name: "View Donations to This Committee", value: :continue},
         {name: "Return to Committee Names", value: :exit}]
 
-        resp = @prompt.select(top_bar + pol.name.light_yellow + "\n#{com.name} (#{com.designation_full}) a.k.a. #{com.alt_name}\n" +
-            "Active: #{com.cycles_active}   Individual Donations: #{com.num_records_available.to_s.red}" + 
-            "\nYou have downloaded #{com.num_records_downloaded}, or #{pct}% of them.", choices, @term_options)
+        resp = @prompt.select(top_bar + pol.name.light_yellow + "\n\n#{com.name.light_blue} (#{com.designation_full}) a.k.a. #{com.alt_name}\n" +
+            "\nActive: #{com.cycles_active}   Individual Donations: #{com.num_records_available.to_s.red}" + 
+            "\n" + "You".light_blue.on_white +  "have downloaded #{com.num_records_downloaded}, or #{pct}% of them.\n", choices, @term_options)
 
         case resp
             when :continue
@@ -171,9 +171,9 @@ class StayWokeCLI
         {name: "Return to Committee Info", value: :exit}]
 
         resp = @prompt.select(top_bar + "\n" + "Schedule A ".green + "Contributions to #{com.name.light_yellow}" +
-               "\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
+               "\n\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
                "\n\n" + "Unique Donors:".rjust(25) + "   #{donor_count}" +
-               + "\n" + "Average Donation:".rjust(25) + "   $#{avg}\n\n", choices, @term_options)
+               + "\n" + "Average Donation:".rjust(25) + "   $#{avg} per donor\n\n", choices, @term_options)
 
         case resp
         when :random
@@ -265,19 +265,18 @@ class StayWokeCLI
 
     def view_my_account_settings
         wipe
-        view = "User: ".light_blue + "#{@user.first_name} #{@user.last_name}" + "      Woke Since:".light_blue + "#{@user.created_at.strftime('%B %d %Y')}\n" +
-                   "\nAddress:".light_blue + " #{@user.address} #{@user.zip_code}  "  +  "Password:".red + " #{@user.password}" +
+        view = top_bar + "\nViewing Account Settings\n".light_yellow + "\nUser: ".light_blue + "#{@user.first_name} #{@user.last_name}" + "      Woke Since:".light_blue + "  #{@user.created_at.strftime('%B %d %Y')}\n" +
+                   "\nAddress:".light_blue + " #{@user.address} #{@user.zip_code}  "  +  "  Password:".red + " #{@user.password}" +
                    "\n\nDomains:".light_blue + "  #{@user.politicians.pluck(:domain).uniq.join(" *  *  * ".light_yellow)}" +
-                   "\n\n" + "Donations".green +  " I'm " + "Woke".light_blue.on_white + " to: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}} and counting..."
-        choices = {name: "Return to Settings", value: 0}
+                   "\n\n" + "Donations".green +  " I'm " + "Woke".light_blue.on_white + " to: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}} federal election contributions for my candidates " + "and counting...".light_blue
+        choices = {"Return to Account Settings": 0}
         resp = @prompt.select(view, choices, @term_options)
         settings
     end
 
     def delete_my_user_account
-        @user.destroy   #First let's prompt are you sure?   Remind them the politician records will remain, you are only deleting the user account
-        binding.pry
-        User.reload
+        @user.destroy.politicians.reset   #First let's prompt are you sure?   Remind them the politician records will remain, you are only deleting the user account
+        
         @user, @temp_user, @temp_active, @current_user, @current_committee, @current_politician = [nil] * 6   #punt session variables but we can keep session open, keeping run.rb clean
         wipe
         puts "Account deleted. Don't feed the hand that bites you.".red
