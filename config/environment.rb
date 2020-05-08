@@ -4,7 +4,7 @@ API_KEY = {:fec=> "QcTjwDy06yeUoGj5I8ZKkXzAYBHA8cReddzO196M", :google=> "AIzaSyA
 
 require "bundler/setup"
 Bundler.require
-require_all 'app'
+require_all './../app/models'
 require 'sqlite3'
 require 'active_record'
 # require 'sinatra_activerecord'
@@ -12,4 +12,5 @@ require 'active_record'
 
 ActiveRecord::Base.establish_connection(
     :adapter => "sqlite3",
-    :database => "db/donations.db")    
+    :database => "./../db/donations.db")
+ActiveRecord::Base.logger = nil

@@ -1,12 +1,14 @@
-require 'tty-prompt'
-require 'colorize'
-require 'colorized_string'
-require 'io/console'
-require 'pry'
+require_relative './../config/environment.rb'
+# require "sinatra/activerecord/rake"
+# # require 'tty-prompt'
+# # require 'colorize'
+# # require 'colorized_string'
+# # require 'io/console'
+# # require 'pry'
 
-ActiveRecord::Base.establish_connection(
-    :adapter => "sqlite3",
-    :database => "db/donations.db")  
+# ActiveRecord::Base.establish_connection(
+#     :adapter => "sqlite3",
+#     :database => "db/donations.db")  
 class StayWokeCLI
     attr_accessor :user, :temp_user, :temp_active, :current_user, :current_committee, :current_politician, :term_height, :term_width, :term_options, :user_string
     attr_reader :heart
