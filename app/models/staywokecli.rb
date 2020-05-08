@@ -136,13 +136,13 @@ class StayWokeCLI
         pol = @current_politician
         com = @current_committee
         wipe
-        pct = (com.num_records_downloaded / com.num_records_available.to_f * 100).round(1).to_s + "%".blue
+        pct = (com.num_records_downloaded / com.num_records_available.to_f * 100).round(1).to_s
         choices = [{name: "View Donations to This Committee", value: :continue},
         {name: "Return to Committee Names", value: :exit}]
 
-        resp = @prompt.select(top_bar + pol.name.light_yellow + "\n#{com.name} + #{com.designation_full} a.k.a. #{com.alt_name}\n" +
+        resp = @prompt.select(top_bar + pol.name.light_yellow + "\n#{com.name} (#{com.designation_full}) a.k.a. #{com.alt_name}\n" +
             "Active: #{com.cycles_active}   Individual Donations: #{com.num_records_available.to_s.red}" + 
-            "\nYou have downloaded #{com.num_records_downloaded}, or #{pct} of them.", choices, @term_options)
+            "\nYou have downloaded #{com.num_records_downloaded}, or #{pct}% of them.", choices, @term_options)
 
         case resp
             when :continue
@@ -164,10 +164,10 @@ class StayWokeCLI
         {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
         {name: "Return to Committee Info", value: :exit}]
 
-        resp = @prompt.select(top_bar + "\n" + "Individual Contributions".green + "to #{com.name.light_yellow}" +
-               "\n(data from local download only - #{com.num_records_downloaded} records)".light_white + 
-               "\n" + "Unique Donors:".rjust(25) + "     #{donor_count}".green +
-               + "\n" + "Average Donation:".rjust(25) + "   $#{avg}", choices, @term_options)
+        resp = @prompt.select(top_bar + "\n" + "Schedule A ".green + "Contributions to #{com.name.light_yellow}" +
+               "\n(data shown - #{com.num_records_downloaded} local records)".light_blue + 
+               "\n\n" + "Unique Donors:".rjust(25) + "   #{donor_count}" +
+               + "\n" + "Average Donation:".rjust(25) + "   $#{avg.to_s.green}\n\n", choices, @term_options)
 
         case resp
         when :random
@@ -187,6 +187,7 @@ class StayWokeCLI
     def download_more_records
         pol = @current_politician
         com = @current_committee
+        resp = @prompt.slider("How many " + "new records".red + " would you like to download?\nPlease check with your " + "FEC administrator".light_blue + " for hourly API call limits.", max: 2000, step: 100, default: 300)
         result = GetCommitteeReceipts.new(com).seek
         com.reload
         view_donation_info
@@ -243,12 +244,12 @@ class StayWokeCLI
 
     def view_my_account_settings
         wipe
-        choices = [{name: "User: #{@user.first_name} #{@user.last_name}  Woke Since: #{@user.created_at.strftime("%B %d %Y")}", value: 0, disabled: ''},
-            {name: "Address: #{@user.address} #{@user.zip_code}  Password: " + @user.password, value: 0, disabled: ''},
-            {name: "Domains: #{@user.politicians.pluck(:domain).uniq.join("***")}", value: 0, disabled: ''},
-            {name: "Records Downloaded for My Politicians: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}}", value: 0, disabled: ''},
-            {name: "Return to Settings", value: 0}]
-        resp = @prompt.select("My Account Settings", choices, @term_options)
+        view = "User: #{@user.first_name} #{@user.last_name}  Woke Since: #{@user.created_at.strftime("%B %d %Y")}\n" +
+                   "Address: #{@user.address} #{@user.zip_code}     Password: " + @user.password + "\n" +
+                   "Domains: #{@user.politicians.pluck(:domain).uniq.join(" *  *  * ".light_yellow)}" +
+                   "Donations I'm " + "Woke".light_blue.on_white + " to: #{User.first.politicians.sum{|pol| pol.committees.sum{|com| com.num_records_downloaded}}}"
+        choices = {name: "Return to Settings", value: 0}
+        resp = @prompt.select(view, choices, @term_options)
         settings
     end
 
