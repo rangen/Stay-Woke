@@ -20,10 +20,18 @@ class StayWokeCLI
 
     def welcome
       puts wake_up "Welcome to Stay Woke!"
-      resp = @prompt.yes?("Is it your first time waking up?")
+      choices = {"Yes, open my eyes"=> :new, "No, I've been " + wake_up("woke") + " before"=>:existing, "I can't handle the truth..."=>:exit}
+      resp = @prompt.ask("\nIs it your first time waking up?")
       
-      resp || User.first.nil? ? new_user : find_user_name  #pretty genius || to stop login attempt to an empty db :)
-      login
+        case resp
+        when :exit 
+            return
+        when :existing && User.first       #pretty genius && to stop login attempt to an empty db :)
+            find_user_name
+        else
+            new_user
+        end
+        login
     end
 
     def new_user
