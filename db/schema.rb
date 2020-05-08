@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_07_054948) do
+ActiveRecord::Schema.define(version: 2020_05_08_083324) do
 
   create_table "committees", force: :cascade do |t|
     t.string "fec_id"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2020_05_07_054948) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "address"
-    t.integer "zip_code"
+    t.string "zip_code"
     t.string "password"
   end
 

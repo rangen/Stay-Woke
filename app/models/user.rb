@@ -1,8 +1,11 @@
+require 'pry'
+require 'tty-prompt'
 class User < ActiveRecord::Base
     has_and_belongs_to_many :politicians
     
     def find_my_servants
         #let's use Google Civic API to find my politicians using my address
+        reporter = {success: true} #allow returns to provide useful info
         args = {:address=> self.address, :levels=> "country", :roles=>"legislatorUpperBody&roles=legislatorLowerBody", key: API_KEY[:google]}
         
         json = JSONByURL.new("https://www.googleapis.com/civicinfo/v2/representatives?" + Slug.build_params(args), true)
@@ -10,6 +13,7 @@ class User < ActiveRecord::Base
 
         #save normalized address info :)  Thanks Google!
         n = res["normalizedInput"]
+        return {success: false, error_type: :failed_address}.merge(self.attributes) if n["zip"].empty?  #feels like the best way to guess if address is malformed as google will give partial data but we won't get congress district if no zip
         normal = "#{n["line1"]} #{n["city"]} #{n["state"]}"
         self.update(address: normal, zip_code: n["zip"])
 
@@ -50,7 +54,6 @@ class User < ActiveRecord::Base
                 y = res["officials"][index]["channels"].find {|h| h["type"] == "YouTube"}
                 servants[index][:youtube] = y.nil? ? "Not Listed" : y["id"]
                 
-
                 servants[index][:domain] = polIndices[index][:domain]
                 servants[index][:title] = polIndices[index][:title]
             end
@@ -58,26 +61,23 @@ class User < ActiveRecord::Base
 
         servants.each_value do |rep|
             pol = Politician.find_or_create_by(rep)
-            self.politicians << pol if !self.politicians.include?(pol)
-            if !pol.candidate_id  #populate the Politician's Candidate_ID for this Title if haven't already retrieved.
-                seeker = FindCandidateID.new(pol)
-                pol.update(candidate_id: seeker.seek)
-            end
+            if pol.candidate_id.nil?  #populate the Politician's Candidate_ID for this Title if haven't already retrieved previously.
+                found_candidate_id = FindCandidateID.new(pol).seek
+                if found_candidate_id.nil?
+                    #error with coalescing Google API data and FEC.gov
+                    catch_to_report = pol.delete #finally a use for this shit  Let's get it out of our database AND do something with it below
+                    reporter = {:success => false, error_type: :candidate_not_found_fec}.merge(catch_to_report.attributes)  #we can catch to send an email!!! attach info that failed
+                else
+                    pol.update(candidate_id: found_candidate_id)
+                    self.politicians << pol if !self.politicians.include?(pol) #moved this logic here so we don't delete a record we're attached to.  how would fix otherwise?
+                end
+            end       
         end
         
-        servants #change to res to view output of JSON
+        reporter   
     end
 
     def create_politician(args)
         Politician.create(args)
-    end
-
-    #simple instance method to show capability
-    def show_my_local_donors
-        self.politicians[0].committees[0].donations.map do |d|
-            puts "#{d.donor.name} #{d.donor.street_1} #{d.donor.city}   $$#{d.amount}         #{d.donor.occupation} @ #{d.donor.employer}"
-        end
-    end
-
-    
+    end   
 end

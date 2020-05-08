@@ -14,16 +14,22 @@ class FindCandidateID
             district = "00"   # 00 for Senate (warning: or at-large candidates but we shouldn't be getting those from Google API)
         else
             office = "H"
-            district =  pol.domain.scan(/\d+/)    #RegEx to strip district # from Politician Domain (Representatives only)
-        end
+            district =  pol.domain.scan(/\d+/) if pol.domain   #RegEx to strip district # from Politician Domain (Representatives only)
+        end                                                    #have to check for nil value b/c Liz Cheney from WY has no district
 
 
         args = {api_key: API_KEY[:fec], q: pol.name, party: party, district: district, office: office}
-        args[:q] = "Joseph Courtney" if args[:q] == "Joe Courtney"
+        
+        args[:q] = "Joseph Courtney" if args[:q] == "Joe Courtney"    ###Build out this list as any errors are found with mismatched politician names
+
         json = JSONByURL.new("https://api.open.fec.gov/v1/names/candidates/?" + Slug.build_params(args))
         res = json.snag
 
-        res["results"].find{|rec| rec["office_sought"] == office}["id"]
+        candidate = res["results"].find{|rec| rec["office_sought"] == office}
+        
+        return nil if candidate.nil?
+
+        candidate["id"]
     end
 end
     
