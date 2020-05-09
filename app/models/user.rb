@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
         reporter = {success: true} #allow returns to provide useful info
         args = {:address=> self.address, :levels=> "country", :roles=>"legislatorUpperBody&roles=legislatorLowerBody", key: API_KEY[:google]}
         
-        json = JSONByURL.new("https://www.googleapis.com/civicinfo/v2/representatives?" + Slug.build_params(args), true)
+        json = JSONByURL.new("https://www.googleapis.com/civicinfo/v2/representatives?" + args.build_params)
         res = json.snag
 
         #save normalized address info :)  Thanks Google!

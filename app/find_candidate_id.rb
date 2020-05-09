@@ -22,7 +22,7 @@ class FindCandidateID
         
         args[:q] = "Joseph Courtney" if args[:q] == "Joe Courtney"    ###Build out this list as any errors are found with mismatched politician names
 
-        json = JSONByURL.new("https://api.open.fec.gov/v1/names/candidates/?" + Slug.build_params(args))
+        json = JSONByURL.new("https://api.open.fec.gov/v1/names/candidates/?" + args.build_params)
         res = json.snag
 
         candidate = res["results"].find{|rec| rec["office_sought"] == office}

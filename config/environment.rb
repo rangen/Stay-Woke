@@ -4,7 +4,8 @@ require "bundler/setup"
 Bundler.require(:default, ENV['SINATRA_ENV'])
 
 
-require_all "../lib"
+require_all "app"
+require_all "lib"
 require_relative "keys.rb"
 
 ActiveRecord::Base.establish_connection(

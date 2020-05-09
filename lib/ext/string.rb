@@ -1,15 +1,16 @@
 class String
-    def self.build_params(args)
-        str = ""
+    def build_params(args)
+        str = self
         args.each_pair {|k, v| str += "&#{k}=#{v}" if v}  #don't build nil values into slug
-        encode(str)
+        binding.pry
+        self.encode_via_uri
     end
 
-    def self.encode(str)
-        URI.escape(str)
+    def encode_via_uri
+        URI.escape(self)
     end
 
-    def self.scrub_name(str)
-        str.split.select{|s| !s.include?(".")}.join(" ")   #old way to delete name portions with periods.
+    def scrub_name(str)
+        self.split.select{|s| !s.include?(".")}.join(" ")   #old way to delete name portions with periods.
     end
 end
