@@ -3,7 +3,7 @@
 ||__|||__|||__|||__|||_______|||__|||__|||__|||__||                                                                                                              
 |/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|     
 
-
+(a Flatiron School Mod1 Project)
 
 To use Stay Woke, you'll need to obtain two API Keys.
 
