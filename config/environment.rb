@@ -1,16 +1,13 @@
-require 'tty-prompt'
-
-
+ENV["SINATRA_ENV"] ||= "staywoke"
 
 require "bundler/setup"
-Bundler.require
-require_all './../app/models'
-require 'sqlite3'
-require 'active_record'
-# require 'sinatra_activerecord'
+Bundler.require(:default, ENV['SINATRA_ENV'])
 
+
+require_all "../lib"
+require_relative "keys.rb"
 
 ActiveRecord::Base.establish_connection(
     :adapter => "sqlite3",
-    :database => "./../db/donations.db")
+    :database => "db/#{ENV['SINATRA_ENV']}.db")
 ActiveRecord::Base.logger = nil

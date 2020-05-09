@@ -1,5 +1,4 @@
-require 'uri'
-class Slug
+class String
     def self.build_params(args)
         str = ""
         args.each_pair {|k, v| str += "&#{k}=#{v}" if v}  #don't build nil values into slug
