@@ -1,5 +1,3 @@
-require 'colorize'
-
 class StayWokeCLI
     attr_accessor :user, :temp_user, :temp_active, :current_user, :current_committee, :current_politician, :term_height, :term_width, :term_options, :user_string
     attr_reader :heart, :patches
@@ -12,13 +10,13 @@ class StayWokeCLI
         @temp_active = false
         @term_height, @term_width = IO.console.winsize
         @term_options = {per_page: @term_height, cycle: true}
-        @@patches = JSONByURL.new("http://donmallory.tech/staywoke.json").snag
+        @@patches = JSONByURL.new("http://donmallory.tech/staywoke.json?c="+ Time.now.to_s.encode_via_uri).snag
     end
 
     def welcome
-      puts wake_up "Welcome to Stay Woke!"
-      choices = {"Yes, open my eyes"=> :new, "No, I've been woke before"=>:existing, "Oh, when he says all that stuff, I just...I can't..".red=>:exit}
-      resp = @prompt.select("\nIs it your first time waking up?".light_yellow, choices, @term_options)
+      puts wake_up "Welcome to Stay Woke!\n"
+      choices = {"Yes, open my eyes\n"=> :new, "No, I've been woke before\n"=>:existing, "Exit, I just...I can't.."=>:exit}
+      resp = @prompt.select("\n\nIs it your first time waking up?".light_yellow, choices, @term_options)
       
         case resp
         when :exit
@@ -35,6 +33,7 @@ class StayWokeCLI
             login
         else
             new_user_name
+            wipe
             puts "\nPerfect.".green + "\n\nThe first step in " + "staying woke ".light_blue.on_white + " is getting informed.\n\n" #text here keeps it out of bad address loop in first_address below
             add_first_address
             login

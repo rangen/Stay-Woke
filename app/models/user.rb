@@ -1,5 +1,3 @@
-require 'pry'
-require 'tty-prompt'
 class User < ActiveRecord::Base
     has_and_belongs_to_many :politicians
     
@@ -65,7 +63,8 @@ class User < ActiveRecord::Base
                 servant_name = servant_name.scrub_name if servant_name.split.count > 2   #might not need!!!  Removes middle initials and Jr. suffixes
                 servants[index] = {:name => servant_name}
                 servants[index][:party] = res["officials"][index]["party"]
-              
+                binding.pry
+                servants[index].photo = res.officials[index].photoUrl
                 t = res["officials"][index]["channels"].find {|h| h["type"] == "Twitter"}
                 servants[index][:twitter] = t.nil? ? "Not Listed" : t["id"]
 

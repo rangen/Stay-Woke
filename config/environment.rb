@@ -14,4 +14,5 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.logger = nil
 
 Hash.use_dot_syntax = true
+Hash.hash_dot_use_default = "Not Listed"
 
