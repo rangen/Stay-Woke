@@ -10,7 +10,7 @@ class String
         URI.escape(self)
     end
 
-    def scrub_name(str)
+    def scrub_name
         self.split.select{|s| !s.include?(".")}.join(" ")   #old way to delete name portions with periods.
     end
 end

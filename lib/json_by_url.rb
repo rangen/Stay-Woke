@@ -7,8 +7,18 @@ class JSONByURL
     end
 
     def snag
-          #code error responses here to more easily catch in individual class methods
-        puts "Sending JSON Request: #{url}" if @logger
-          response = JSON.parse(RestClient.get(url))
+        result = {clean: false}
+        
+        puts "GETting JSON: #{url}" if @logger
+        begin
+          response = RestClient.get(url)
+          result.code = response.code
+          result.json = JSON.parse(response)
+        rescue RestClient::BadRequest => e
+          result.code = e.http_code
+        else #check for 2xx also?
+          result.clean = true
+        end
+        result
     end
 end

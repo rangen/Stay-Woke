@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_08_083324) do
+ActiveRecord::Schema.define(version: 2020_05_10_144933) do
 
   create_table "committees", force: :cascade do |t|
     t.string "fec_id"
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(version: 2020_05_08_083324) do
     t.string "candidate_id"
     t.string "facebook"
     t.string "instagram"
-    t.string "email"
     t.string "youtube"
   end
 

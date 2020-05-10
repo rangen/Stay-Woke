@@ -24,7 +24,9 @@ class FindCandidateID
 
         json = JSONByURL.new("https://api.open.fec.gov/v1/names/candidates/?" + args.build_params)
         res = json.snag
-
+        #need to code 4xx errors below!!!
+        res = res.json
+        
         candidate = res["results"].find{|rec| rec["office_sought"] == office}
         
         return nil if candidate.nil?

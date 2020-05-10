@@ -12,3 +12,6 @@ ActiveRecord::Base.establish_connection(
     :adapter => "sqlite3",
     :database => "db/#{ENV['SINATRA_ENV']}.db")
 ActiveRecord::Base.logger = nil
+
+Hash.use_dot_syntax = true
+

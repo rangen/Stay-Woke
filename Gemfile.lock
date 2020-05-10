@@ -19,6 +19,7 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     equatable (0.6.1)
+    hash_dot (2.4.2)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -86,6 +87,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord (~> 5.2.3)
   colorize
+  hash_dot
   json
   pry
   rake

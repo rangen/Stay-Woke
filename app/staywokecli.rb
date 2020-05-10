@@ -2,13 +2,17 @@ require 'colorize'
 
 class StayWokeCLI
     attr_accessor :user, :temp_user, :temp_active, :current_user, :current_committee, :current_politician, :term_height, :term_width, :term_options, :user_string
-    attr_reader :heart
+    attr_reader :heart, :patches
+
     def initialize
+        puts "Loading latest version info from donmallory.tech ....".blue
+        # sleep 3
         @prompt = TTY::Prompt.new
         @heart = @prompt.decorate(@prompt.symbols[:heart] + ' ', :bright_magenta)
         @temp_active = false
         @term_height, @term_width = IO.console.winsize
         @term_options = {per_page: @term_height, cycle: true}
+        @@patches = JSONByURL.new("http://donmallory.tech/staywoke.json").snag
     end
 
     def welcome
@@ -17,7 +21,8 @@ class StayWokeCLI
       resp = @prompt.select("\nIs it your first time waking up?".light_yellow, choices, @term_options)
       
         case resp
-        when :exit 
+        when :exit
+            wipe
             return
         when :existing       
             if User.first.nil?
@@ -29,21 +34,40 @@ class StayWokeCLI
             find_user_name
             login
         else
-            new_user
+            new_user_name
+            puts "\nPerfect.".green + "\n\nThe first step in " + "staying woke ".light_blue.on_white + " is getting informed.\n\n" #text here keeps it out of bad address loop in first_address below
+            add_first_address
             login
         end
     end
 
-    def new_user
+    def new_user_name
         wipe
         args = @prompt.collect do
             key(:first_name).ask("We've been expecting you!\n \nIt's never too late to and find out what's going on.\n \nStaying woke takes daily practice and mindfulness.\n \nLet's help you stay woke by setting up a user profile.\n".light_yellow + "\nFirst Name: ".green)
-            key(:last_name).ask("Last name: ".green)
-            key(:address).ask("\nPerfect.".green + "\nThe first step in " + "staying woke ".light_blue.on_white + " is getting informed.\nEnter your " + "address".green + " to get started: ")
+            key(:last_name).ask("\nLast name: ".green)
         end
+        @user = User.new(args)  #Placed new address in separate function to enable easier looping when it fails
+    end
+
+
+    def add_first_address
+        add = @prompt.ask("Enter your " + "address".green + " to get started: ")
         wipe
-        seed_initial_data(args)        
-        puts "\nInitial data downloaded!".red + " We'll secure your local account access now."
+        puts "Checking address...".blue
+        result = @user.check_address(add)
+        
+        if !result
+            wipe
+            puts "We couldn't find your servants based on that info. \n\n Please try typing the address with more specificity.".blue
+            sleep 3
+            wipe
+            add_first_address
+        else
+            wipe #user instance was successfully saved in self.check_address  politician info also linked 
+            puts "Address Valid! Now, let's do some digging...".blue
+            sleep 2
+        end
     end
 
     def find_user_name #displays users in database  and user can select one to attempt to log in with
@@ -89,7 +113,7 @@ class StayWokeCLI
             info_for_district
         when :settings
             settings
-       end
+        end
     end
 
     def exit_program
@@ -216,32 +240,17 @@ class StayWokeCLI
 
     def settings
         wipe
-        choices = {"View My Account Settings" => :settings,
+        choices = {"View My Account Settings" => :view_my_account_settings,
             "Change Address" => :change_address,
-            "Change Password" => :change_pwd,
+            "Change Password" => :change_password,
             "Delete Data"=>:delete_data,
-            "Delete Account" => :delete_me,
-            "About Stay Woke!".light_blue.on_white=>:about,
-            "Return to Main Menu" => :exit
+            "Delete Account" => :delete_my_user_account,
+            "About Stay Woke!".light_blue.on_white=>:about_stay_woke,
+            "Return to Main Menu" => :main_menu
         }
         resp = @prompt.select(top_bar + "Account Settings".red, choices, @term_options)
-            case resp
-            when :about
-                about_stay_woke
-            when :settings
-                view_my_account_settings
-            when :delete_data
-                delete_data
-            when :delete_me
-                delete_my_user_account  #works
-            when :change_address
-                change_address #works
-            when :change_pwd 
-                change_password #works
-            when :exit
-                main_menu
-            end
-    end
+        self.send(resp)
+    end 
 
     def about_stay_woke
         wipe
@@ -283,11 +292,38 @@ class StayWokeCLI
     end
 
     def change_address
-        args = @user.attributes  #Oh, hello Ruby on Rails command
-        args[:address] = @prompt.ask("Current Address: #{@user.address}   New Address?")
+        resp = @prompt.ask("New Address: ('cancel' to abort)")
+        if resp == "cancel"
+            view_my_account_settings
+            return   #important!  to not execute following code when user gets the kick
+        end
+
+        wipe
+        puts "Verifying address so we can connect to your servants...".blue
+        result = @user.check_address(resp)  #ask the user instance to verify valid address.  return false here if fails to draw 3 politicians
+        
+        if !result
+            wipe 
+            puts "We couldn't verify that address. Please email system admin dmm333@gmail.com if this problem persists".blue
+            sleep 4
+            view_my_account_settings
+            return #Kick
+        end
+        #user is changing their address    
+        args = @user.attributes
         @user.destroy
-        @user = seed_initial_data(args)
+        @user.politicians.reset #clear ActiveRecord cache to destroy associations, data on pols persists, but association gone and user is deleted
+    
+        
+        result[:politicians].each {|pol| @user.politicians << pol}
+
+        
+        @user.destroy
+        @user.politicians.reset #clear ActiveRecord cache to destroy associations
+        
         @current_user = @user
+        
+
         settings
     end
 
@@ -315,20 +351,18 @@ class StayWokeCLI
          " " * (@term_width - (left.length + right.length) - 15) + left + " " * 10 + right
     end
 
+    def self.patches
+        @@patches
+    end
+
     private
 
-    def seed_initial_data(args)
-        puts "Building your initial dataset....".red   
-        hold_me = User.create(args)
+    def address_update(args)
+        hold_me = User.create(args)  #No, not yet    check address first, duh
 
         pong = hold_me.find_my_servants #attempt to get data for new address
-        if !pong[:success]
-            #let's do something with pong!  save it locally, Gmail...
-            @temp_active ? @temp_user = hold_me : @user = hold_me
-            return false
-        end
+       
 
-        puts "Retrieving info about: ".blue + hold_me.politicians.pluck(:name).map{|x|x.green}.join("    ")
         hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek if Politician.find_by(candidate_id: can).committees.empty?}  #don't check if already checked
         hold_me.politicians.each do |pol|
             pol.committees.each {|com| GetCommitteeReceipts.new(com, {initial_download: true}).seek if com.last_index.nil?} 
