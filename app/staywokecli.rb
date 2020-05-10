@@ -10,7 +10,7 @@ class StayWokeCLI
         @temp_active = false
         @term_height, @term_width = IO.console.winsize
         @term_options = {per_page: @term_height, cycle: true}
-        @@patches = JSONByURL.new("http://donmallory.tech/staywoke.json?c="+ Time.now.to_s.encode_via_uri).snag
+        @@patches = JSONByURL.new("http://donmallory.tech/staywoke.json?c="+ Time.now.to_s.encode_via_uri).snag #unique time data query refreshes RestClient cache!
     end
 
     def welcome
@@ -58,7 +58,7 @@ class StayWokeCLI
         
         if !result
             wipe
-            puts "We couldn't find your servants based on that info. \n\n Please try typing the address with more specificity.".blue
+            puts "We couldn't find your servants based on that info. \n\nPlease try typing the address with more specificity.".blue
             sleep 3
             wipe
             add_first_address
@@ -66,6 +66,8 @@ class StayWokeCLI
             wipe #user instance was successfully saved in self.check_address  politician info also linked 
             puts "Address Valid! Now, let's do some digging...".blue
             sleep 2
+            @user.find_pols_coms #now let's find the pols committees if we haven't already
+            @user.politicians.each {|pol| pol.committees.each{|com| com.get_initial_sched_a}}
         end
     end
 
@@ -293,36 +295,28 @@ class StayWokeCLI
     def change_address
         resp = @prompt.ask("New Address: ('cancel' to abort)")
         if resp == "cancel"
-            view_my_account_settings
+            settings
             return   #important!  to not execute following code when user gets the kick
         end
 
         wipe
         puts "Verifying address so we can connect to your servants...".blue
-        result = @user.check_address(resp)  #ask the user instance to verify valid address.  return false here if fails to draw 3 politicians
+        result = @user.check_address(resp)  #ask the user instance to verify valid address.  return false here if fails to draw 3 politicians  check_address does NOT change address in instance
         
         if !result
             wipe 
             puts "We couldn't verify that address. Please email system admin dmm333@gmail.com if this problem persists".blue
             sleep 4
-            view_my_account_settings
+            settings
             return #Kick
         end
-        #user is changing their address    
-        args = @user.attributes
-        @user.destroy
-        @user.politicians.reset #clear ActiveRecord cache to destroy associations, data on pols persists, but association gone and user is deleted
-    
+        #user is changing their address (was changed by check_address already as called on instance and modified there)   
         
-        result[:politicians].each {|pol| @user.politicians << pol}
-
+        @user.politicians.reset #clear politicians linked but preserve user
         
-        @user.destroy
-        @user.politicians.reset #clear ActiveRecord cache to destroy associations
-        
-        @current_user = @user
-        
-
+        result[:politicians].each {|pol| @user.politicians << pol}  #new politicians linked to user and their new address!
+        #need to download new politician committee info, if necessary
+        @user.find_pols_coms
         settings
     end
 
@@ -350,22 +344,7 @@ class StayWokeCLI
          " " * (@term_width - (left.length + right.length) - 15) + left + " " * 10 + right
     end
 
-    def self.patches
+    def self.patches #serve patch JSON
         @@patches
-    end
-
-    private
-
-    def address_update(args)
-        hold_me = User.create(args)  #No, not yet    check address first, duh
-
-        pong = hold_me.find_my_servants #attempt to get data for new address
-       
-
-        hold_me.politicians.pluck(:candidate_id).each {|can| GetCandidateInfo.new(can).seek if Politician.find_by(candidate_id: can).committees.empty?}  #don't check if already checked
-        hold_me.politicians.each do |pol|
-            pol.committees.each {|com| GetCommitteeReceipts.new(com, {initial_download: true}).seek if com.last_index.nil?} 
-        end
-        @temp_active ? @temp_user = hold_me : @user = hold_me
     end
 end

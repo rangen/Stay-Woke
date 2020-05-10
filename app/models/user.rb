@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
         #address valid! let's return from this function with the normalized address thanks to the Google API
         n = res.json.normalizedInput
         normal = "#{n.line1} #{n.city} #{n.state}"
-        self.update(address: normal, zip_code: n.zip) #First time we save the new user or the dummy user  if existing user, update is fine.
+        
+        self.update(address: normal, zip_code: n["zip"]) #First time we save the new user or the dummy user  if existing user, update is fine. lol can't use .zip as it's an array function already
         user_pols = parse_civic_info(res.json)
         #swap out Google API name for FEC name here if we detect an issue in the staywoke JSON we maintain
         user_pols = user_pols.each {|pol| pol.name = StayWokeCLI.patches.json[pol.name] || pol.name} #yew!
@@ -31,8 +32,6 @@ class User < ActiveRecord::Base
             end
             self.reload
         end
-        binding.pry
-        sleep 3
     end
 
     def report_failure(msg)
@@ -63,7 +62,7 @@ class User < ActiveRecord::Base
                 servant_name = servant_name.scrub_name if servant_name.split.count > 2   #might not need!!!  Removes middle initials and Jr. suffixes
                 servants[index] = {:name => servant_name}
                 servants[index][:party] = res["officials"][index]["party"]
-                binding.pry
+
                 servants[index].photo = res.officials[index].photoUrl
                 t = res["officials"][index]["channels"].find {|h| h["type"] == "Twitter"}
                 servants[index][:twitter] = t.nil? ? "Not Listed" : t["id"]
@@ -83,4 +82,13 @@ class User < ActiveRecord::Base
         end
         servants.values.map{|pol| Politician.find_or_create_by(pol)}
     end 
+
+    def find_pols_coms
+        return true if self.politicians.all?{|pol| !pol.committees.empty?} #return if all 3 politicians at new address have committees in DB
+
+        self.politicians.select {|pol| pol.committees.empty?}.each {|pol| GetCandidateInfo.new(pol.candidate_id).seek} #only called if politician has no committees (new pol in DB)
+        #^^^^ needs error catching if for some reason finding politician committee info fails and report_failure
+        return true #maybe pointless, refactor when error catching in-tact
+    end
+
 end

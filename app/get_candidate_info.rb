@@ -1,4 +1,4 @@
-class GetCandidateInfo
+class GetCandidateInfo  #only called when politician is new in DB
     attr_reader :id
 
     def initialize(candidate_id)
@@ -8,7 +8,7 @@ class GetCandidateInfo
     def seek
         args = {api_key: API_KEY[:fec], candidate_id: id}
         json = JSONByURL.new("https://api.open.fec.gov/v1/candidates/search/?" + args.build_params)
-        res = json.snag  #puts endpoint if errors occurring comment out finds
+        res = json.snag.json  #puts endpoint if errors occurring comment out finds
 
         res["results"][0]["principal_committees"].each {|com| create_committee(com)}
     end
@@ -17,7 +17,7 @@ class GetCandidateInfo
         cycles = "#{c["cycles"][0]} ~ #{c["cycles"][-1]}"   #the -1 is for you, Parsons :p
         args = {name: c["name"], cycles_active: cycles, designation_full: c["designation_full"], alt_name: c["affiliated_committee_name"], fec_id: c["committee_id"], first_file_date: c["first_file_date"], last_file_date: c["last_file_date"]}
 
-        if !Committee.find_by(args) 
+        if !Committee.find_by(args) #shouldn't be needed, but considering retaining if we lose a link between a politician and a committee
             com = Committee.create(args)
             Politician.find_by(candidate_id: id).committees << com
         end

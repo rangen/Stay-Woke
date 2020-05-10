@@ -15,9 +15,9 @@ class GetCommitteeReceipts
     def seek                #DESC by date.here
         
         args = {sort: "-contribution_receipt_date", api_key: API_KEY[:fec], committee_id: id, per_page: 100, last_index: @last_index, last_contribution_receipt_date: @last_date}
-        json = JSONByURL.new("https://api.open.fec.gov/v1/schedules/schedule_a?" + Slug.build_params(args))
+        json = JSONByURL.new("https://api.open.fec.gov/v1/schedules/schedule_a?" + args.build_params)
 
-        res = json.snag 
+        res = json.snag.json #fix 
 
         #log page info, number results, last index retrieved
         donations = res["results"]
