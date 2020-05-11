@@ -133,10 +133,15 @@ class StayWokeCLI
         user = @current_user
         wipe
         
-        choices = user.politicians.reduce({}){|chc, pol| chc[pol.name] = pol; chc}
-        choices["Return to Main Menu"] = :exit
+        choices = user.politicians.reduce({})do |chc, pol| 
+            chc["@#{pol.twitter}".rjust(16).blue + "  " + pol.name] = pol
+            chc
+        end
 
-        resp = @prompt.select(top_bar + "Info for My District", choices, @term_options)
+
+        choices[" " * 18 + "Return to Main Menu"] = :exit
+
+        resp = @prompt.select(top_bar + " " * 11 + "Info for My District\n".yellow, choices, @term_options)
         case resp
         when :exit
             main_menu
