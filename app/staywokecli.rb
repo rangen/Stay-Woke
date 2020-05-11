@@ -214,20 +214,19 @@ class StayWokeCLI
     def view_random_donation
         pol = @current_politician
         com = @current_committee
+        sam = com.donations.sample
+        don = sam.donor
         wipe
-        
-       choices = [{name: "View Donation (random)", value: :random},
-        {name: "Download More Records (#{com.num_records_available - com.num_records_downloaded} Available)", value: :download},
-        {name: "Return to Committee Info", value: :exit}]
 
-        resp = @prompt.select(top_bar + "\nDonation Earmarked for #{pol.name.light_yellow}" +
-               "\n(via  #{com.name}" + "\n-------------------------------------------------------".light_yellow + 
-               "\n\n" + "Donors:".rjust(25) + "   " +
-                "\nAverage Donation:".rjust(25) + "", choices, @term_options)
+        choices = [{name: "\n\nView Donation (random)", value: :view_random_donation},
+        {name: "Return to Donation Info", value: :view_donation_info}]
 
-       
-            view_donation_info
-        
+        resp = @prompt.select(top_bar + "\n\nName: ".blue + don.name.titlecase + "    Address: ".blue + don.street_1.titlecase + 
+            "\n\nCity: ".blue + don.city.titlecase + "    ZIP: ".blue + don["zip"].to_s +  "  State: ".blue + don.state +
+            "\n\nOccupation: ".blue + don.occupation.titlecase + "    Employer: ".blue + don.employer.titlecase  +
+            "\n\nDate Donation Reported: ".blue + sam.date.to_s + "  Amount: ".blue + sam.amount.to_s.green + " Num of Donations: ".blue + Donation.where(donor_id: don.id).count.to_s, choices, @term_options)
+
+            self.send(resp)
     end
 
     def download_more_records
